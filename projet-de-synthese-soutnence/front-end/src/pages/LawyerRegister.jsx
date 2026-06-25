@@ -247,7 +247,7 @@ const LawyerRegister = () => {
                     <div className="auth-card glass register lawyer-register-card" dir={dir}>
                         <div className="auth-header">
                             <div className="auth-logo-box">
-                                <img src="/logo.jpg" className="logo-icon-img" alt="حقي" />
+                                <img src="/logo.png" className="logo-icon-img" alt="حقي" />
                                 <span className="logo-name">GIVENX</span>
                                 <span className="logo-tag">حقي</span>
                             </div>

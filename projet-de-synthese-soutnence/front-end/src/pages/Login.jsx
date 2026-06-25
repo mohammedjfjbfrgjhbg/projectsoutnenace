@@ -99,7 +99,7 @@ const Login = () => {
                     <div className="auth-header">
                         <div className="auth-logo-box">
                             <div className="logo-glow-ring">
-                                <img src="/logo.jpg" className="logo-icon-img-premium" alt="حقي" />
+                                <img src="/logo.png" className="logo-icon-img-premium" alt="حقي" />
                             </div>
                             <span className="logo-name-premium">GIVENX</span>
                             <div className="logo-tag-premium">
