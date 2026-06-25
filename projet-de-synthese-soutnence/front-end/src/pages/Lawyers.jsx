@@ -355,13 +355,26 @@ export default function Lawyers() {
       
       const url = mapTheme === 'dark' 
         ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' 
-        : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
         
       tileLayerRef.current = L.tileLayer(url, {
         attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
       }).addTo(mapInstanceRef.current);
     }
   }, [mapTheme]);
+
+  // Handle Leaflet size invalidation when mobile viewMode toggles (map/list)
+  useEffect(() => {
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.invalidateSize();
+      const timer = setTimeout(() => {
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.invalidateSize();
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [viewMode]);
 
   // Check role
   const localUser = localStorage.getItem('user');
@@ -469,7 +482,7 @@ export default function Lawyers() {
       // Set tileLayer based on current mapTheme
       const url = mapTheme === 'dark' 
         ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' 
-        : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
       
       tileLayerRef.current = L.tileLayer(url, {
         attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
