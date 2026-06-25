@@ -6,6 +6,7 @@ import "leaflet/dist/leaflet.css";
 import "./Lawyers.css";
 import api from '../services/api';
 import { useLanguage } from "../context/LanguageContext";
+import { useDarkMode } from "../hooks/useDarkMode";
 
 const FILTERS = ["الكل", "الأسرة", "الشغل", "الأعمال", "العقار", "الجنائي"];
 
@@ -333,10 +334,34 @@ export default function Lawyers() {
   const [userLat, setUserLat] = useState(33.5731);
   const [userLon, setUserLon] = useState(-7.5898);
 
+  const { isDark } = useDarkMode();
+  const [mapTheme, setMapTheme] = useState(isDark ? "dark" : "light");
+
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
+  const tileLayerRef = useRef(null);
   const markersLayerRef = useRef(null);
   const markersMapRef = useRef({});
+
+  // Sync mapTheme with global dark mode
+  useEffect(() => {
+    setMapTheme(isDark ? "dark" : "light");
+  }, [isDark]);
+
+  // Handle tileLayer switching reactively
+  useEffect(() => {
+    if (mapInstanceRef.current && tileLayerRef.current) {
+      mapInstanceRef.current.removeLayer(tileLayerRef.current);
+      
+      const url = mapTheme === 'dark' 
+        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' 
+        : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+        
+      tileLayerRef.current = L.tileLayer(url, {
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+      }).addTo(mapInstanceRef.current);
+    }
+  }, [mapTheme]);
 
   // Check role
   const localUser = localStorage.getItem('user');
@@ -441,8 +466,12 @@ export default function Lawyers() {
       });
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-      // Premium CartoDB dark mode tile layer (matches dark & gold theme)
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      // Set tileLayer based on current mapTheme
+      const url = mapTheme === 'dark' 
+        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' 
+        : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+      
+      tileLayerRef.current = L.tileLayer(url, {
         attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
       }).addTo(map);
 
@@ -744,8 +773,33 @@ export default function Lawyers() {
           <div 
             className={`split-right-panel ${viewMode === 'list' ? 'mobile-hidden' : ''}`}
             onClick={handleMapClick}
+            style={{ position: 'relative' }}
           >
               <div id="lawyers-map" ref={mapRef}></div>
+              
+              {/* Map Theme Toggle Button */}
+              <div className="map-theme-toggle-container">
+                  <button 
+                      type="button" 
+                      className={`map-theme-btn ${mapTheme === 'light' ? 'active' : ''}`}
+                      onClick={(e) => {
+                          e.stopPropagation();
+                          setMapTheme('light');
+                      }}
+                  >
+                      ☀️ {language === 'darija' ? 'النهار' : (language === 'fr' ? 'Jour' : 'Light')}
+                  </button>
+                  <button 
+                      type="button" 
+                      className={`map-theme-btn ${mapTheme === 'dark' ? 'active' : ''}`}
+                      onClick={(e) => {
+                          e.stopPropagation();
+                          setMapTheme('dark');
+                      }}
+                  >
+                      🌙 {language === 'darija' ? 'الليل' : (language === 'fr' ? 'Nuit' : 'Night')}
+                  </button>
+              </div>
           </div>
       </div>
 
