@@ -2143,3 +2143,45 @@ html.dark .pricing-modern {
   height: 100%;
   object-fit: contain;
 }
+
+/* ==========================================
+   DARK MODE OVERRIDES — Cases & Filters
+   ========================================== */
+html.dark .header-titles h2 {
+  color: #ffffff !important;
+}
+
+html.dark .header-titles p {
+  color: #94a3b8 !important;
+}
+
+html.dark .cases-filters-bar {
+  background: #1e293b !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+html.dark .filter-badge {
+  background: #0f172a !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .filter-badge:hover {
+  background: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .filter-badge.active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #ffffff !important;
+}
+
+html.dark .search-stat-info {
+  color: #94a3b8 !important;
+}
+
+html.dark .welcome-splash-overlay {
+  background-color: #0d0f14 !important;
+}
