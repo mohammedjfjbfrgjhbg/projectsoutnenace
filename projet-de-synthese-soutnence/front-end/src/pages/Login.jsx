@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, ShieldCheck } from 'lucide-react';
+import { 
+  Mail, 
+  Lock, 
+  Eye, 
+  EyeOff, 
+  ShieldCheck, 
+  User, 
+  Scale, 
+  ChevronLeft, 
+  ChevronRight, 
+  Sparkles, 
+  UserPlus 
+} from 'lucide-react';
 import './Login.css';
 import api from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
@@ -61,6 +73,12 @@ const Login = () => {
     const dir = (language === 'en' || language === 'fr') ? 'ltr' : 'rtl';
     const noAccountText = language === 'darija' ? 'إذا لم يكن لديك حساب، ' : (language === 'fr' ? "Si vous n'avez pas de compte, " : "If you don't have an account, ");
 
+    // Helper to clean emojis from role strings
+    const cleanRoleText = (text) => {
+        if (!text) return '';
+        return text.replace(/^[^\w\u0600-\u06FF]+/, '').trim();
+    };
+
     return (
         <div className="auth-page-wrapper" dir={dir}>
             {/* Background Video */}
@@ -80,9 +98,14 @@ const Login = () => {
                     {/* Header: Logo & Title */}
                     <div className="auth-header">
                         <div className="auth-logo-box">
-                            <img src="/logo.jpg" className="logo-icon-img" alt="حقي" />
-                            <span className="logo-name">GIVENX</span>
-                            <span className="logo-tag">{t('brandBadge')}</span>
+                            <div className="logo-glow-ring">
+                                <img src="/logo.jpg" className="logo-icon-img-premium" alt="حقي" />
+                            </div>
+                            <span className="logo-name-premium">GIVENX</span>
+                            <div className="logo-tag-premium">
+                                <Sparkles size={11} className="sparkle-icon" />
+                                <span>{t('brandBadge')}</span>
+                            </div>
                         </div>
                         <h1 className="auth-title">{t('login')}</h1>
                         <p className="auth-subtitle">
@@ -93,27 +116,30 @@ const Login = () => {
                     </div>
 
                     {/* Role Selector Tabs */}
-                    <div className="auth-role-tabs" dir={dir}>
+                    <div className="auth-role-tabs-premium" dir={dir}>
                         <button 
                             type="button" 
-                            className={`auth-role-tab ${role === 'user' ? 'active' : ''}`}
+                            className={`auth-role-tab-premium ${role === 'user' ? 'active' : ''}`}
                             onClick={() => setRole('user')}
                         >
-                            {t('roleClient')}
+                            <User size={15} />
+                            <span>{cleanRoleText(t('roleClient'))}</span>
                         </button>
                         <button 
                             type="button" 
-                            className={`auth-role-tab ${role === 'lawyer' ? 'active' : ''}`}
+                            className={`auth-role-tab-premium ${role === 'lawyer' ? 'active' : ''}`}
                             onClick={() => setRole('lawyer')}
                         >
-                            {t('roleLawyer')}
+                            <Scale size={15} />
+                            <span>{cleanRoleText(t('roleLawyer'))}</span>
                         </button>
                         <button 
                             type="button" 
-                            className={`auth-role-tab ${role === 'admin' ? 'active' : ''}`}
+                            className={`auth-role-tab-premium ${role === 'admin' ? 'active' : ''}`}
                             onClick={() => setRole('admin')}
                         >
-                            {t('roleAdmin')}
+                            <ShieldCheck size={15} />
+                            <span>{cleanRoleText(t('roleAdmin'))}</span>
                         </button>
                     </div>
 
@@ -121,53 +147,65 @@ const Login = () => {
 
                     {/* Form */}
                     <form className="auth-form" onSubmit={handleSubmit}>
-                        <div className="auth-input-group">
-                            <div className="input-wrap">
-                                <Mail className="field-icon" size={20} />
-                                <input 
-                                    type="email" 
-                                    placeholder="E-mail" 
-                                    value={email} 
-                                    onChange={(e) => setEmail(e.target.value)} 
-                                    required 
-                                />
+                        {/* Apple-style inputs group container */}
+                        <div className="auth-inputs-card-premium">
+                            <div className="auth-input-group-premium">
+                                <div className="input-wrap-premium">
+                                    <Mail className="field-icon-premium" size={18} />
+                                    <input 
+                                        type="email" 
+                                        placeholder="E-mail" 
+                                        value={email} 
+                                        onChange={(e) => setEmail(e.target.value)} 
+                                        required 
+                                    />
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="auth-input-group">
-                            <div className="input-wrap">
-                                <Lock className="field-icon" size={20} />
-                                <input 
-                                    type={showPassword ? "text" : "password"} 
-                                    placeholder={t('passwordPlaceholder')} 
-                                    value={password} 
-                                    onChange={(e) => setPassword(e.target.value)} 
-                                    required 
-                                />
-                                <button 
-                                    type="button" 
-                                    className="toggle-pass" 
-                                    onClick={() => setShowPassword(!showPassword)}
-                                >
-                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                                </button>
+                            <div className="auth-input-group-premium">
+                                <div className="input-wrap-premium">
+                                    <Lock className="field-icon-premium" size={18} />
+                                    <input 
+                                        type={showPassword ? "text" : "password"} 
+                                        placeholder={t('passwordPlaceholder')} 
+                                        value={password} 
+                                        onChange={(e) => setPassword(e.target.value)} 
+                                        required 
+                                    />
+                                    <button 
+                                        type="button" 
+                                        className="toggle-pass-premium" 
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
                         <div className="auth-extra">
-                            <Link to="/forgot-password" className="forgot-link">{t('forgotPasswordTitle')}</Link>
+                            <Link to="/forgot-password" className="forgot-link-premium">{t('forgotPasswordTitle')}</Link>
                         </div>
 
-                        <button type="submit" className="auth-submit-btn" disabled={loading}>
-                            {loading ? t('saving') : 
-                             (role === 'lawyer' ? t('loginSubmitLawyer') : 
-                              role === 'admin' ? t('loginSubmitAdmin') : t('loginSubmitClient'))}
+                        <button type="submit" className="auth-submit-btn-premium" disabled={loading}>
+                            <span className="btn-text">
+                                {loading ? t('saving') : 
+                                 (role === 'lawyer' ? t('loginSubmitLawyer') : 
+                                  role === 'admin' ? t('loginSubmitAdmin') : t('loginSubmitClient'))}
+                            </span>
+                            <div className="btn-arrow-circle">
+                                {dir === 'rtl' ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+                            </div>
                         </button>
                     </form>
 
                     {/* Footer */}
-                    <div className="auth-footer">
-                        <p>{noAccountText}<Link to="/register" className="cta-link">{t('register')}</Link></p>
+                    <div className="auth-footer-premium">
+                        <UserPlus size={16} className="footer-icon-premium" />
+                        <p>
+                            {noAccountText}
+                            <Link to="/register" className="cta-link-premium">{t('register')}</Link>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -176,4 +214,5 @@ const Login = () => {
 };
 
 export default Login;
+
 
