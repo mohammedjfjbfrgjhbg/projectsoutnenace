@@ -34,6 +34,7 @@ import postService from '../services/post.service';
 import api from '../services/api';
 import './Profile.css';
 import { useLanguage } from '../context/LanguageContext';
+import { BACKEND_URL, SOCKET_URL } from '../config';
 
 const Profile = () => {
   const { userId } = useParams();
@@ -353,7 +354,7 @@ const Profile = () => {
   useEffect(() => {
     if (!userId || !currentUser) return;
 
-    const socket = io('http://localhost:3000');
+    const socket = io(SOCKET_URL);
     socket.emit('register', currentUser.id);
 
     socket.on('follow_request', (data) => {
@@ -708,7 +709,7 @@ const Profile = () => {
   const isOwnProfile = currentUser && profileUser && currentUser.id === profileUser.id;
   const avatarSrc = (user) => {
     if (user?.avatar) {
-      return `http://localhost:8000${user.avatar}`;
+      return `${BACKEND_URL}${user.avatar}`;
     }
     return null;
   };
@@ -1122,7 +1123,7 @@ const Profile = () => {
             {posts.length > 0 ? (
               posts.map((post) => {
                 const hasImages = post.images && post.images.length > 0;
-                const previewUrl = hasImages ? `http://localhost:8000${post.images[0]}` : null;
+                const previewUrl = hasImages ? `${BACKEND_URL}${post.images[0]}` : null;
                 
                 return (
                   <div 
@@ -1262,7 +1263,7 @@ const Profile = () => {
               <div className="form-avatar-pick">
                 <div className="picker-preview">
                   {editAvatarPreview ? (
-                    <img src={editAvatarPreview.startsWith('blob:') ? editAvatarPreview : `http://localhost:8000${editAvatarPreview}`} alt="avatar pick preview" />
+                    <img src={editAvatarPreview.startsWith('blob:') ? editAvatarPreview : `${BACKEND_URL}${editAvatarPreview}`} alt="avatar pick preview" />
                   ) : (
                     <div className="pic-placeholder-sm" style={{ backgroundColor: avatarColor(profileUser) }}>
                       {initials(editName)}
@@ -1427,7 +1428,7 @@ const Profile = () => {
               {/* Right Side: Media Display */}
               <div className="post-modal-media">
                 {activePost.images && activePost.images.length > 0 ? (
-                  <img src={`http://localhost:8000${activePost.images[0]}`} alt="Post detailed visual" />
+                  <img src={`${BACKEND_URL}${activePost.images[0]}`} alt="Post detailed visual" />
                 ) : (
                   <div className="text-post-placeholder">
                     <p>{activePost.content}</p>

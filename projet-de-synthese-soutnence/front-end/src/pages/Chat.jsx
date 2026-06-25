@@ -5,6 +5,7 @@ import { io } from 'socket.io-client';
 import './Chat.css';
 import api from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
+import { BACKEND_URL, SOCKET_URL } from '../config';
 
 const Chat = () => {
     const location = useLocation();
@@ -80,7 +81,7 @@ const Chat = () => {
                     const userIds = responseData.map(c => c.id);
                     if (userIds.length > 0) {
                         try {
-                            const statusRes = await fetch('http://localhost:3000/online-status', {
+                            const statusRes = await fetch(`${SOCKET_URL}/online-status`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ userIds })
@@ -196,7 +197,7 @@ const Chat = () => {
     useEffect(() => {
         if (!currentUser) return;
 
-        const socket = io('http://localhost:3000');
+        const socket = io(SOCKET_URL);
         socketRef.current = socket;
         socket.emit('register', currentUser.id);
 
@@ -451,7 +452,7 @@ const Chat = () => {
                                         padding: '3px'
                                     } : {}}>
                                         {currentUser.avatar ? (
-                                            <img src={`http://localhost:8000${currentUser.avatar}`} alt="My avatar" className="story-avatar-img" />
+                                            <img src={`${BACKEND_URL}${currentUser.avatar}`} alt="My avatar" className="story-avatar-img" />
                                         ) : (
                                             <div className="story-avatar-placeholder" style={{ background: '#0a58ca' }}>
                                                 {currentUser.name.charAt(0)}
@@ -474,7 +475,7 @@ const Chat = () => {
                                     >
                                         <div className="story-avatar-wrapper">
                                             {c.avatar ? (
-                                                <img src={`http://localhost:8000${c.avatar}`} alt={c.name} className="story-avatar-img" />
+                                                <img src={`${BACKEND_URL}${c.avatar}`} alt={c.name} className="story-avatar-img" />
                                             ) : (
                                                 <div className="story-avatar-placeholder" style={{ 
                                                     background: c.lawyer?.avatar_color || '#c9a84c'
@@ -526,7 +527,7 @@ const Chat = () => {
                                         <div className="contact-main-info">
                                             <div className="avatar-container">
                                                 {c.avatar ? (
-                                                    <img src={`http://localhost:8000${c.avatar}`} alt={c.name} className="contact-avatar-img" />
+                                                    <img src={`${BACKEND_URL}${c.avatar}`} alt={c.name} className="contact-avatar-img" />
                                                 ) : (
                                                     <div className="avatar-letter" style={{ 
                                                         background: c.lawyer?.avatar_color || '#c9a84c'
@@ -558,7 +559,7 @@ const Chat = () => {
                         <div className="panel-lawyer-card">
                             <div className="premium-avatar-box">
                                 {activeContact.avatar ? (
-                                    <img src={`http://localhost:8000${activeContact.avatar}`} alt={activeContact.name} className="active-avatar-img" />
+                                    <img src={`${BACKEND_URL}${activeContact.avatar}`} alt={activeContact.name} className="active-avatar-img" />
                                 ) : (
                                     <div className="avatar-letter large-avatar" style={{ 
                                         background: activeContact.lawyer?.avatar_color || '#c9a84c'
@@ -586,7 +587,7 @@ const Chat = () => {
                                             <p className="file-name">{fileMsg.file_name}</p>
                                             <p className="file-meta">{t('consultationFile')}</p>
                                         </div>
-                                        <a href={`http://127.0.0.1:8000${fileMsg.file_path}`} target="_blank" rel="noopener noreferrer" className="download-btn">
+                                        <a href={`${BACKEND_URL}${fileMsg.file_path}`} target="_blank" rel="noopener noreferrer" className="download-btn">
                                             <Download size={16} />
                                         </a>
                                     </div>
@@ -620,7 +621,7 @@ const Chat = () => {
                                                     <FileText size={24} className="file-bubble-icon" />
                                                     <div className="file-bubble-details">
                                                         <p className="file-bubble-name">{msg.file_name}</p>
-                                                        <a href={`http://127.0.0.1:8000${msg.file_path}`} target="_blank" rel="noopener noreferrer" className="file-download-link">
+                                                        <a href={`${BACKEND_URL}${msg.file_path}`} target="_blank" rel="noopener noreferrer" className="file-download-link">
                                                             {t('downloadFile')}
                                                         </a>
                                                     </div>
@@ -697,7 +698,7 @@ const Chat = () => {
                             <div className="story-author-info">
                                 <div className="story-author-avatar">
                                     {activeStoryContact.avatar ? (
-                                        <img src={`http://localhost:8000${activeStoryContact.avatar}`} alt={activeStoryContact.name} />
+                                        <img src={`${BACKEND_URL}${activeStoryContact.avatar}`} alt={activeStoryContact.name} />
                                     ) : (
                                         <div className="story-avatar-placeholder-sm" style={{ background: activeStoryContact.lawyer?.avatar_color || '#c9a84c' }}>
                                             {activeStoryContact.name.charAt(0)}

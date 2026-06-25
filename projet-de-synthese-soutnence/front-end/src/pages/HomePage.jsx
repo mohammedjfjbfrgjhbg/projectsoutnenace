@@ -27,6 +27,7 @@ import Footer from "../components/Footer/Footer"
 import "./HomePage.css"
 import { useLanguage } from "../context/LanguageContext"
 import api from "../services/api"
+import { BACKEND_URL } from "../config"
 
 function HomePage() {
   const navigate = useNavigate()
@@ -151,7 +152,7 @@ function HomePage() {
 
   const getClientAvatar = (client) => {
     if (client && client.avatar) {
-      return `http://localhost:8000${client.avatar}`;
+      return `${BACKEND_URL}${client.avatar}`;
     }
     return null;
   };

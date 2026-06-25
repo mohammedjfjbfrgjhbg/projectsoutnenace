@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { io } from 'socket.io-client';
 import api from '../../services/api';
+import { SOCKET_URL } from '../../config';
 import './Sidebar.css';
 import { useLanguage } from '../../context/LanguageContext';
 
@@ -53,7 +54,7 @@ const Sidebar = ({ isOpen, toggleSidebar, isDark, toggleDark }) => {
     fetchCounts();
 
     if (userId) {
-      const socket = io('http://localhost:3000');
+      const socket = io(SOCKET_URL);
       socket.emit('register', userId);
 
       socket.on('message', (msg) => {

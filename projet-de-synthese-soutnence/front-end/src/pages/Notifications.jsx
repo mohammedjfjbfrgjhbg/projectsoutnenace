@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import api from '../services/api';
 import profileService from '../services/profile.service';
+import { SOCKET_URL } from '../config';
 import './Notifications.css';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -50,7 +51,7 @@ const Notifications = () => {
     useEffect(() => {
         if (!currentUser) return;
 
-        const socket = io('http://localhost:3000');
+        const socket = io(SOCKET_URL);
         socket.emit('register', currentUser.id);
 
         const handleRealtimeNotif = (data) => {

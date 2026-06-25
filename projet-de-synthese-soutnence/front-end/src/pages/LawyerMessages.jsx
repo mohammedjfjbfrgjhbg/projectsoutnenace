@@ -5,6 +5,7 @@ import { io } from 'socket.io-client';
 import './LawyerMessages.css';
 import api from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
+import { BACKEND_URL, SOCKET_URL } from '../config';
 
 const LawyerMessages = () => {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const LawyerMessages = () => {
         const userIds = response.data.map(c => c.id);
         if (userIds.length > 0) {
           try {
-            const statusRes = await fetch('http://localhost:3000/online-status', {
+            const statusRes = await fetch(`${SOCKET_URL}/online-status`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ userIds })
@@ -139,7 +140,7 @@ const LawyerMessages = () => {
   useEffect(() => {
     if (!currentUser) return;
 
-    const socket = io('http://localhost:3000');
+    const socket = io(SOCKET_URL);
     socketRef.current = socket;
     socket.emit('register', currentUser.id);
 
@@ -393,7 +394,7 @@ const LawyerMessages = () => {
                     padding: '3px'
                   } : {}}>
                     {currentUser.avatar ? (
-                      <img src={`http://localhost:8000${currentUser.avatar}`} alt="My avatar" className="story-avatar-img" />
+                      <img src={`${BACKEND_URL}${currentUser.avatar}`} alt="My avatar" className="story-avatar-img" />
                     ) : (
                       <div className="story-avatar-placeholder" style={{ background: '#0a58ca' }}>
                         {currentUser.name.charAt(0)}
@@ -416,7 +417,7 @@ const LawyerMessages = () => {
                   >
                     <div className="story-avatar-wrapper">
                       {c.avatar ? (
-                        <img src={`http://localhost:8000${c.avatar}`} alt={c.name} className="story-avatar-img" />
+                        <img src={`${BACKEND_URL}${c.avatar}`} alt={c.name} className="story-avatar-img" />
                       ) : (
                         <div className="story-avatar-placeholder" style={{ 
                           background: c.lawyer?.avatar_color || '#c9a84c'
@@ -463,7 +464,7 @@ const LawyerMessages = () => {
                   >
                     <div className="chat-avatar" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                       {chat.avatar ? (
-                        <img src={`http://localhost:8000${chat.avatar}`} alt={chat.name} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                        <img src={`${BACKEND_URL}${chat.avatar}`} alt={chat.name} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
                       ) : (
                         chat.name.charAt(0)
                       )}
@@ -512,7 +513,7 @@ const LawyerMessages = () => {
                 <div className="chat-user-info">
                   <div className="chat-avatar">
                     {activeContact.avatar ? (
-                      <img src={`http://localhost:8000${activeContact.avatar}`} alt={activeContact.name} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                      <img src={`${BACKEND_URL}${activeContact.avatar}`} alt={activeContact.name} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
                     ) : (
                       activeContact.name.charAt(0)
                     )}
@@ -540,7 +541,7 @@ const LawyerMessages = () => {
                               <FileText size={20} style={{ color: '#d97706' }} />
                               <div style={{ textAlign: 'right' }}>
                                 <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: 'bold' }}>{msg.file_name}</p>
-                                <a href={`http://127.0.0.1:8000${msg.file_path}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: '#60a5fa', textDecoration: 'underline' }}>
+                                <a href={`${BACKEND_URL}${msg.file_path}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: '#60a5fa', textDecoration: 'underline' }}>
                                   {t('downloadFile')}
                                 </a>
                               </div>
@@ -617,7 +618,7 @@ const LawyerMessages = () => {
               <div className="story-author-info">
                 <div className="story-author-avatar">
                   {activeStoryContact.avatar ? (
-                    <img src={`http://localhost:8000${activeStoryContact.avatar}`} alt={activeStoryContact.name} />
+                    <img src={`${BACKEND_URL}${activeStoryContact.avatar}`} alt={activeStoryContact.name} />
                   ) : (
                     <div className="story-avatar-placeholder-sm" style={{ background: activeStoryContact.lawyer?.avatar_color || '#c9a84c' }}>
                       {activeStoryContact.name.charAt(0)}

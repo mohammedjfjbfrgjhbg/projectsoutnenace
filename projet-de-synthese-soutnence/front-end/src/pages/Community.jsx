@@ -31,6 +31,7 @@ import {
   Award
 } from 'lucide-react';
 import postService from '../services/post.service';
+import { BACKEND_URL } from '../config';
 import './Community.css';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -503,7 +504,7 @@ const Community = () => {
                     style={{ backgroundColor: getAvatarColor(currentUser) }}
                   >
                     {currentUser.avatar ? (
-                      <img src={`http://localhost:8000${currentUser.avatar}`} alt={currentUser.name} />
+                      <img src={`${BACKEND_URL}${currentUser.avatar}`} alt={currentUser.name} />
                     ) : (
                       getUserInitials(currentUser.name)
                     )}
@@ -631,7 +632,7 @@ const Community = () => {
                           style={{ backgroundColor: getAvatarColor(post.user) }}
                         >
                           {post.user.avatar ? (
-                            <img src={`http://localhost:8000${post.user.avatar}`} alt={post.user.name} />
+                            <img src={`${BACKEND_URL}${post.user.avatar}`} alt={post.user.name} />
                           ) : (
                             getUserInitials(post.user.name)
                           )}
@@ -679,7 +680,7 @@ const Community = () => {
                           >
                             {post.images.map((imgUrl, i) => (
                               <div key={i} className="slide-premium">
-                                <img src={`http://localhost:8000${imgUrl}`} alt={`Post img ${i + 1}`} />
+                                <img src={`${BACKEND_URL}${imgUrl}`} alt={`Post img ${i + 1}`} />
                               </div>
                             ))}
                           </div>
@@ -766,7 +767,7 @@ const Community = () => {
                               style={{ backgroundColor: getAvatarColor(currentUser) }}
                             >
                               {currentUser.avatar ? (
-                                <img src={`http://localhost:8000${currentUser.avatar}`} alt={currentUser.name} />
+                                <img src={`${BACKEND_URL}${currentUser.avatar}`} alt={currentUser.name} />
                               ) : (
                                 getUserInitials(currentUser.name)
                               )}
@@ -806,7 +807,7 @@ const Community = () => {
                                     onClick={() => navigate('/profile/' + comment.user.id)}
                                   >
                                     {comment.user.avatar ? (
-                                      <img src={`http://localhost:8000${comment.user.avatar}`} alt={comment.user.name} />
+                                      <img src={`${BACKEND_URL}${comment.user.avatar}`} alt={comment.user.name} />
                                     ) : (
                                       getUserInitials(comment.user.name)
                                     )}
@@ -870,7 +871,7 @@ const Community = () => {
                                           style={{ backgroundColor: getAvatarColor(currentUser) }}
                                         >
                                           {currentUser.avatar ? (
-                                            <img src={`http://localhost:8000${currentUser.avatar}`} alt={currentUser.name} />
+                                             <img src={`${BACKEND_URL}${currentUser.avatar}`} alt={currentUser.name} />
                                           ) : (
                                             getUserInitials(currentUser.name)
                                           )}
@@ -910,7 +911,7 @@ const Community = () => {
                                           onClick={() => navigate('/profile/' + reply.user.id)}
                                         >
                                           {reply.user.avatar ? (
-                                            <img src={`http://localhost:8000${reply.user.avatar}`} alt={reply.user.name} />
+                                             <img src={`${BACKEND_URL}${reply.user.avatar}`} alt={reply.user.name} />
                                           ) : (
                                             getUserInitials(reply.user.name)
                                           )}

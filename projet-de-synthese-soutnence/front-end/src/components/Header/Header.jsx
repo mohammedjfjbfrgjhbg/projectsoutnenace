@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { io } from 'socket.io-client';
 import api from '../../services/api';
+import { BACKEND_URL, SOCKET_URL } from '../../config';
 import "./Header.css";
 import { useLanguage } from "../../context/LanguageContext";
 
@@ -74,7 +75,7 @@ function Header({ isDark, toggleDark, isLawyer, toggleSidebar }) {
     if (userId) {
       fetchCounts();
 
-      const socket = io('http://localhost:3000');
+      const socket = io(SOCKET_URL);
       socket.emit('register', userId);
 
       socket.on('message', (msg) => {
@@ -126,7 +127,7 @@ function Header({ isDark, toggleDark, isLawyer, toggleSidebar }) {
             <button className="profile-btn" onClick={() => setShowDropdown(!showDropdown)}>
               <div className="profile-avatar-circle">
                 {currentUser.avatar_url ? (
-                  <img src={`http://localhost:8000/storage/${currentUser.avatar_url}`} alt="Avatar" />
+                  <img src={`${BACKEND_URL}/storage/${currentUser.avatar_url}`} alt="Avatar" />
                 ) : (
                   <span className="avatar-placeholder">{currentUser.name?.charAt(0).toUpperCase()}</span>
                 )}
