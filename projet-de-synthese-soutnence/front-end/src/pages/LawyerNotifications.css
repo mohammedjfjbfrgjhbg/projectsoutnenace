@@ -1,0 +1,134 @@
+.ln-wrapper {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.ln-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.ln-header h1 {
+  font-size: 28px;
+}
+
+.ln-mark-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.ln-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.ln-item {
+  background: var(--bg-white);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  position: relative;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.ln-item:hover {
+  border-color: var(--primary-light);
+  transform: translateX(-4px);
+}
+
+.ln-item.unread {
+  background: var(--bg-soft);
+  border-right: 4px solid var(--primary);
+  border-color: var(--primary-light);
+}
+
+.ln-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ln-content {
+  flex: 1;
+}
+
+.ln-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.ln-top-row h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.ln-time {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.ln-content p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.ln-more {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.ln-item:hover .ln-more {
+  opacity: 1;
+}
+
+.ln-dot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+}
+
+.ln-load-more {
+  width: 100%;
+  padding: 14px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ln-load-more:hover {
+  background: var(--bg-hover);
+  color: var(--text-main);
+}

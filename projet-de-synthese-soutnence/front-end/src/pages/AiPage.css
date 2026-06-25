@@ -1,0 +1,11 @@
+.ai-page-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.85)), url('/arobot.jpg') no-repeat center center / cover;
+  background-attachment: fixed;
+  padding: 24px;
+}
+
+.chat-content-area {
+  max-width: 1000px;
+  margin: 0 auto;
+}

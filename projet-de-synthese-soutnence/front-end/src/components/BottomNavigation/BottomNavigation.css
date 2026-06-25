@@ -1,0 +1,111 @@
+/* Bottom Navigation Bar for Mobile */
+.bottom-nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  display: none; /* Desktop hidden */
+  justify-content: space-around;
+  align-items: center;
+  z-index: 3000;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+  padding: 0 8px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* Dark theme overrides */
+html.dark .bottom-nav-bar {
+  background: rgba(11, 15, 25, 0.85);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.3);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  gap: 4px;
+  flex: 1;
+  height: 100%;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.bottom-nav-item svg {
+  color: var(--text-muted);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* Active & Hover styling */
+.bottom-nav-item:hover svg,
+.bottom-nav-item.active svg {
+  color: var(--primary) !important;
+  transform: translateY(-2px);
+}
+
+.bottom-nav-item.active {
+  color: var(--primary) !important;
+}
+
+/* Active Indicator Dot */
+.bottom-nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  width: 4px;
+  height: 4px;
+  background-color: var(--primary);
+  border-radius: 50%;
+}
+
+.bottom-nav-label {
+  font-size: 10px;
+  transition: color 0.2s ease;
+}
+
+/* Icon Badge Wrapper */
+.bottom-nav-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-nav-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 1.5px solid white;
+}
+
+html.dark .bottom-nav-badge {
+  border-color: #0b0f19;
+}
+
+/* Responsive visibility */
+@media (max-width: 768px) {
+  .bottom-nav-bar {
+    display: flex;
+  }
+}

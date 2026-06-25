@@ -1,0 +1,305 @@
+/* ==========================================
+   Redesigned Premium Notifications Stylesheet
+   ========================================== */
+.notifications-page.alternative-design {
+  min-height: 100vh;
+  background-color: var(--bg-cream);
+  padding: 40px 20px;
+  font-family: var(--font-ar);
+  color: var(--text-main);
+  transition: var(--transition-theme);
+}
+
+.notifications-wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Header Row */
+.notifications-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.notifications-title {
+  font-size: 1.6rem;
+  font-weight: 850;
+  color: var(--text-main);
+}
+
+.mark-all-read-link {
+  background: transparent;
+  color: var(--primary-light);
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  padding: 4px 8px;
+}
+
+.mark-all-read-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* List Container */
+.notifications-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Notification Card */
+.notification-premium-card {
+  position: relative;
+  background: var(--bg-white);
+  border: 1px solid var(--border-medium);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.notification-premium-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+/* Unread state */
+.notification-premium-card.is-unread {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 1px var(--primary-light), var(--shadow-sm);
+}
+
+/* Blue dot for unread */
+.card-unread-dot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary-light);
+  border-radius: 50%;
+}
+
+/* Right Section: Icon */
+.card-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Middle Section: Texts */
+.card-middle-section {
+  flex: 1;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-title-text {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.card-body-text {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Card Action trigger */
+.card-action-trigger {
+  align-self: flex-start;
+  background: transparent;
+  border: none;
+  color: var(--primary-light);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.card-action-trigger:hover {
+  opacity: 0.8;
+}
+
+/* Left Section: Time and Actions */
+.card-left-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.card-time-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.delete-card-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  opacity: 0; /* Hidden by default, shown on card hover */
+}
+
+.notification-premium-card:hover .delete-card-btn {
+  opacity: 1;
+}
+
+.delete-card-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* Follow actions */
+.notif-follow-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.notif-follow-actions button {
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-accept {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+
+.btn-accept:hover {
+  background: var(--primary-dark);
+}
+
+.btn-reject {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-medium);
+  color: var(--text-main);
+}
+
+.btn-reject:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Empty notifications styling */
+.empty-notifications-premium {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.empty-icon {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.empty-notifications-premium h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.empty-notifications-premium p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 320px;
+}
+
+/* Load more button */
+.load-more-notifications-btn {
+  margin: 16px auto 0;
+  background: var(--bg-white);
+  border: 1px solid var(--border-medium);
+  color: var(--text-main);
+  padding: 12px 32px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+  width: fit-content;
+}
+
+.load-more-notifications-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--primary-light);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .notification-premium-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .card-icon-wrapper {
+    order: -1;
+  }
+
+  .card-middle-section {
+    width: 100%;
+  }
+
+  .card-left-section {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-light);
+    padding-top: 12px;
+    margin-top: 8px;
+  }
+
+  .delete-card-btn {
+    opacity: 1; /* Always show delete on mobile */
+  }
+}

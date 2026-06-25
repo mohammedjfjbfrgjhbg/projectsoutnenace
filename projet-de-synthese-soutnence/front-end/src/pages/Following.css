@@ -1,0 +1,170 @@
+/* FOLLOWING PAGE — Blue/Navy Theme */
+.f-page {
+  min-height: 100vh;
+  background: #f0f6ff;
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  color: #0c1a2e;
+}
+
+.f-page-header {
+  text-align: center;
+  padding: 48px 20px 24px;
+  background: linear-gradient(to bottom, #dbeafe, #f0f6ff);
+}
+
+.f-badge {
+  display: inline-block;
+  background: #0369a118;
+  color: #0369a1;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 6px 18px;
+  border-radius: 30px;
+  margin-bottom: 12px;
+  border: 1px solid #0369a130;
+}
+
+.f-page-title { font-size: 32px; font-weight: 900; color: #0c2461; margin-bottom: 8px; }
+.f-page-sub { font-size: 15px; color: #4a7fa5; }
+
+.f-feed {
+  display: flex; flex-direction: column;
+  align-items: center; padding: 20px 0 60px; gap: 40px;
+}
+
+.f-post-card {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; padding: 0 24px;
+}
+
+.f-post-inner {
+  width: 100%; max-width: 420px; min-height: 680px;
+  background: white; border-radius: 26px; overflow: hidden;
+  position: relative; display: flex; flex-direction: column;
+  border: 1px solid #bfdbfe;
+  box-shadow: 0 10px 40px rgba(3,105,161,0.1), 0 2px 6px rgba(0,0,0,0.04);
+  transition: all .35s;
+}
+
+.f-post-inner:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 60px rgba(3,105,161,0.18);
+}
+
+.f-post-illustration {
+  width: 100%; height: 250px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 80px; color: white; position: relative;
+}
+
+.f-post-illustration::after {
+  content: "";
+  position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 120px;
+  background: linear-gradient(to top, rgba(0,0,0,.25), transparent);
+}
+
+.f-overlay-actions {
+  position: absolute; left: 18px; bottom: 160px;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 18px; z-index: 10;
+}
+
+.f-action-btn {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 4px; cursor: pointer; color: white; transition: .2s;
+}
+
+.f-action-btn span { font-size: 11px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,.5); }
+
+.f-action-icon {
+  width: 38px; height: 38px; background: white; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25); color: #1f2937;
+}
+
+.f-action-icon svg { width: 14px; height: 14px; }
+.f-action-btn:hover .f-action-icon,
+.f-action-btn.active .f-action-icon { background: #0369a1; color: white; }
+.f-book-btn { background: #0369a1 !important; color: white; }
+
+.f-post-content { padding: 22px 24px 26px; background: white; }
+.f-post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+
+.f-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 700; color: white; flex-shrink: 0;
+}
+
+.f-author-info { flex: 1; }
+.f-author-name { font-size: 15px; font-weight: 800; color: #0c1a2e; }
+.f-author-badge { font-size: 12px; color: #0369a1; margin-top: 2px; }
+
+.f-follow-btn {
+  background: transparent; border: 2px solid #0369a1; color: #0369a1;
+  padding: 6px 15px; border-radius: 20px; font-size: 13px; cursor: pointer;
+  transition: .2s; font-family: 'Tajawal', sans-serif;
+}
+
+.f-follow-btn:hover, .f-follow-btn.following { background: #0369a1; color: white; }
+
+.f-post-title { font-size: 20px; font-weight: 900; color: #0c1a2e; line-height: 1.5; margin-bottom: 10px; }
+.f-post-desc { font-size: 13px; color: #4a7fa5; line-height: 1.7; margin-bottom: 16px; }
+
+.f-post-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.f-post-tag {
+  background: #eff6ff; border: 1px solid #bfdbfe; color: #0369a1;
+  padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+  text-decoration: none; transition: .2s;
+}
+
+.f-post-tag:hover { background: #0369a1; color: white; border-color: #0369a1; }
+
+/* Booking Modal — Navy */
+.f-booking-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center; z-index: 1000;
+}
+
+.f-booking-modal {
+  background: #0c2461; color: white; padding: 40px;
+  border-radius: 24px; width: 380px; position: relative;
+  border: 1px solid #1d4ed8;
+}
+
+.f-close-btn {
+  position: absolute; top: 16px; left: 16px;
+  background: none; border: none; color: #93c5fd; font-size: 18px; cursor: pointer;
+}
+
+.f-booking-title { font-size: 20px; font-weight: 900; margin-bottom: 24px; text-align: center; }
+.f-booking-section { margin-bottom: 20px; }
+.f-booking-label { font-size: 12px; color: #93c5fd; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+
+.f-days-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.f-day-card {
+  background: #163172; border: 1px solid #1d4ed8; border-radius: 10px;
+  padding: 8px 4px; text-align: center; cursor: pointer; transition: .2s;
+}
+.f-day-card:hover, .f-day-card.active { background: #0369a1; border-color: #0369a1; }
+.f-day-name { display: block; font-size: 10px; color: #93c5fd; }
+.f-day-date { display: block; font-size: 16px; font-weight: 800; }
+
+.f-times-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.f-time-card {
+  background: #163172; border: 1px solid #1d4ed8; color: white;
+  border-radius: 10px; padding: 10px; font-size: 13px; cursor: pointer;
+  transition: .2s; font-family: 'Tajawal', sans-serif;
+}
+.f-time-card:hover, .f-time-card.active { background: #0369a1; border-color: #0369a1; }
+
+.f-next-btn {
+  width: 100%; padding: 14px; background: #0369a1; color: white;
+  border: none; border-radius: 12px; font-size: 16px; font-weight: 800;
+  cursor: pointer; margin-top: 8px; transition: .2s;
+  font-family: 'Tajawal', sans-serif;
+}
+.f-next-btn:hover { background: #0284c7; }

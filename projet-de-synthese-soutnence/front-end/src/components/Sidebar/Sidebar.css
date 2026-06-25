@@ -1,0 +1,335 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--bg-cream);
+  z-index: 2000;
+  border-left: 1px solid var(--border-medium);
+  display: flex;
+  flex-direction: column;
+  padding: 32px 20px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), var(--transition-theme);
+  overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 10px;
+}
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 0 8px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.brand-logo {
+  background: var(--primary);
+  color: white;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  font-size: 20px;
+  box-shadow: var(--shadow-primary);
+}
+
+.brand-logo-img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+}
+
+.brand-name {
+  font-size: 22px;
+  font-weight: 900;
+  margin: 0;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+
+.brand-badge {
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(13, 110, 253, 0.08);
+  color: var(--primary);
+  padding: 2px 10px;
+  border-radius: 50px;
+  display: inline-block;
+  margin-top: 2px;
+}
+
+.sidebar-section {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-light);
+  flex-grow: 1;
+}
+
+.sidebar-section.utility {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-top: 12px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 14px;
+  border: 1.5px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+  background: rgba(13, 110, 253, 0.05);
+  transform: translateX(-4px);
+}
+
+.menu-item.active {
+  background: rgba(13, 110, 253, 0.05) !important;
+  color: var(--primary) !important;
+  font-weight: 800;
+  border: 1.5px solid var(--primary);
+  border-radius: 50px;
+}
+
+html.dark .menu-item.active {
+  background: rgba(13, 110, 253, 0.15) !important;
+  color: var(--primary) !important;
+  border: 1.5px solid #ffffff;
+  border-radius: 50px;
+}
+
+.notification-item {
+  justify-content: space-between;
+}
+
+.notif-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.notif-dot-small {
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: 1.5px solid white;
+}
+
+.sidebar-cta {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 24px;
+}
+
+.cta-btn {
+  width: 100%;
+  background: var(--gold);
+  color: white;
+  border-radius: var(--radius-md);
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cta-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+}
+
+.logout-link {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.logout-link:hover {
+  background: #fff5f5;
+  color: #ef4444;
+}
+
+.mobile-toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 1001;
+  background: var(--primary);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  border: none;
+  cursor: pointer;
+}
+
+.close-btn.mobile-only {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(100%);
+    width: 280px;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: -10px 0 50px rgba(0,0,0,0.2);
+  }
+  .mobile-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .mobile-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: white;
+    margin: 3px 0;
+  }
+  .close-btn.mobile-only {
+    display: flex;
+  }
+}
+
+button.menu-item {
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: right;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button.menu-item span {
+  white-space: nowrap;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--border-light);
+  margin: 16px 0;
+}
+
+.toggle-pill {
+  width: 40px;
+  height: 22px;
+  border-radius: 50px;
+  background: var(--border-medium);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+  margin-right: auto;
+}
+
+html.dark .toggle-pill {
+  background: #334155;
+}
+
+.toggle-pill.on {
+  background: var(--primary);
+}
+
+.toggle-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.toggle-pill.on .toggle-thumb {
+  transform: translateX(-18px);
+}
+
+.sidebar-badge-count {
+  background: var(--gold);
+  color: #121212;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-right: auto;
+}
+
+.sidebar-badge-count-red {
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-right: auto;
+}
+
+@media (min-width: 769px) {
+  .sidebar {
+    display: none !important;
+  }
+  .mobile-toggle {
+    display: none !important;
+  }
+}

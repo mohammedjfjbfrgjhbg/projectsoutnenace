@@ -1,0 +1,552 @@
+/* Premium Top Navigation Bar Styles */
+.header-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ebf1f6;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 2500;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Dark mode header background */
+html.dark .header-topbar {
+  background-color: #151e2e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* -------------------
+   Right Side: Logo & Hamburger
+   ------------------- */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.logo-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+}
+
+.logo-text-brand {
+  font-size: 24px;
+  font-weight: 900;
+  color: #0d6efd; /* Electric blue logo */
+  letter-spacing: -0.5px;
+}
+
+.topbar-hamburger-btn {
+  background: none;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  display: none;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.topbar-hamburger-btn:hover {
+  background-color: var(--bg-hover);
+}
+
+/* -------------------
+   Center Section: Nav Links
+   ------------------- */
+.topbar-center {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 24px;
+  height: 100%;
+  align-items: center;
+}
+
+.topbar-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 8px;
+  color: #64748b;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+html.dark .topbar-menu-item {
+  color: #94a3b8;
+}
+
+.topbar-menu-item svg {
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+html.dark .topbar-menu-item svg {
+  color: #94a3b8;
+}
+
+/* Hover active state */
+.topbar-menu-item:hover {
+  color: #0d6efd;
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+html.dark .topbar-menu-item:hover {
+  color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.08);
+}
+
+.topbar-menu-item:hover svg {
+  color: #0d6efd;
+}
+
+html.dark .topbar-menu-item:hover svg {
+  color: #3b82f6;
+}
+
+.topbar-menu-item.active {
+  color: #0d6efd !important;
+  background-color: rgba(13, 110, 253, 0.12);
+}
+
+html.dark .topbar-menu-item.active {
+  color: #3b82f6 !important;
+  background-color: rgba(59, 130, 246, 0.15);
+}
+
+.topbar-menu-item.active svg {
+  color: #0d6efd !important;
+}
+
+html.dark .topbar-menu-item.active svg {
+  color: #3b82f6 !important;
+}
+
+/* Badged nav items */
+.topbar-icon-badge-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.topbar-item-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid white;
+}
+
+html.dark .topbar-item-badge {
+  border-color: #151e2e;
+}
+
+/* -------------------
+   Left Side: Profiles, Switches, Bells
+   ------------------- */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Notifications Button */
+.notifications-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+html.dark .notifications-btn {
+  color: #94a3b8;
+}
+
+.notifications-btn:hover {
+  background-color: var(--bg-hover);
+  color: #0d6efd;
+}
+
+.bell-badge-count {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid white;
+}
+
+html.dark .bell-badge-count {
+  border-color: #151e2e;
+}
+
+/* Night Mode Switch Slider styling */
+.night-mode-switch-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 8px;
+}
+
+.night-mode-label-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+html.dark .night-mode-label-group {
+  color: #ffffff;
+}
+
+.switch-icon {
+  color: #64748b;
+}
+
+.switch-icon.yellow-text {
+  color: #eab308;
+}
+
+.switch-text-label {
+  white-space: nowrap;
+}
+
+.switch-pill {
+  width: 42px;
+  height: 22px;
+  border-radius: 50px;
+  background-color: #e2e8f0;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: background-color 0.25s ease;
+}
+
+html.dark .switch-pill {
+  background-color: #334155;
+}
+
+.switch-pill.on {
+  background-color: #0d6efd;
+}
+
+.switch-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.switch-pill.on .switch-thumb {
+  transform: translateX(-20px);
+}
+
+/* -------------------
+   Profile Dropdown Avatar
+   ------------------- */
+.profile-dropdown-wrapper {
+  position: relative;
+}
+
+.profile-btn {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50px;
+  transition: background-color 0.2s ease;
+}
+
+.profile-btn:hover {
+  background-color: var(--bg-hover);
+}
+
+.profile-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  position: relative;
+  background-color: #0d6efd;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.profile-avatar-circle img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.online-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #10b981; /* Green online */
+  border-radius: 50%;
+  border: 1.5px solid white;
+}
+
+html.dark .online-dot {
+  border-color: #151e2e;
+}
+
+.dropdown-arrow-icon {
+  color: #64748b;
+}
+
+html.dark .dropdown-arrow-icon {
+  color: #94a3b8;
+}
+
+/* Profile Menu Dropdown Card */
+.profile-menu-dropdown {
+  position: absolute;
+  top: 48px;
+  inset-inline-start: 0;
+  min-width: 220px;
+  background-color: #ffffff;
+  border: 1px solid #ebf1f6;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  padding: 8px 0;
+  z-index: 2600;
+}
+
+html.dark .profile-menu-dropdown {
+  background-color: #151e2e;
+  border-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.user-details-header {
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name-label {
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--text-main);
+}
+
+.user-role-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #ebf1f6;
+  margin: 6px 0;
+}
+
+html.dark .dropdown-divider {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-item {
+  width: 100%;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: var(--text-main);
+  font-weight: 700;
+  cursor: pointer;
+  text-align: start;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--bg-hover);
+  color: #0d6efd;
+}
+
+.dropdown-item.logout {
+  color: #ef4444;
+}
+
+.dropdown-item.logout:hover {
+  background-color: #fff5f5;
+  color: #ef4444;
+}
+
+html.dark .dropdown-item.logout:hover {
+  background-color: rgba(239, 68, 68, 0.08);
+}
+
+/* Fade in animation */
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* -------------------
+   Responsive CSS
+   ------------------- */
+@media (max-width: 1100px) {
+  .header-topbar {
+    padding: 0 20px;
+  }
+  .topbar-nav {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar-center {
+    display: none; /* Hide center links on mobile */
+  }
+  
+  .night-mode-switch-container {
+    display: none; /* Hide dark switch on mobile */
+  }
+
+  .topbar-hamburger-btn {
+    display: block; /* Show hamburger toggle on mobile */
+  }
+
+  .header-topbar {
+    height: 60px;
+    padding: 0 16px;
+  }
+}
+
+/* Guest header auth buttons */
+.header-auth-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.header-login-btn {
+  background: transparent;
+  color: #0d6efd;
+  border: 1.5px solid #0d6efd;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.header-login-btn:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.header-register-btn {
+  background: #0d6efd;
+  color: #ffffff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(13, 110, 253, 0.15);
+}
+
+.header-register-btn:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-1px);
+}
+
+html.dark .header-login-btn {
+  color: #60a5fa;
+  border-color: #60a5fa;
+}
+
+html.dark .header-login-btn:hover {
+  background-color: rgba(96, 165, 250, 0.05);
+}
+
+html.dark .header-register-btn {
+  background: #3b82f6;
+}
+
+html.dark .header-register-btn:hover {
+  background-color: #2563eb;
+}

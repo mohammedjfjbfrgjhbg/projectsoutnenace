@@ -1,0 +1,130 @@
+/* TOPIC PAGE — Premium Emerald & Earthy Theme */
+.tp-page {
+  min-height: 100vh;
+  background: var(--bg-cream);
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  color: var(--text-main);
+  transition: var(--transition-theme);
+}
+
+.tp-page-header {
+  text-align: center;
+  padding: 48px 20px 24px;
+  border-bottom: 1px solid var(--border-medium);
+  background: linear-gradient(to bottom, var(--bg-white), var(--bg-cream));
+}
+
+.tp-hashtag {
+  display: inline-block;
+  font-weight: 800; font-size: 14px;
+  padding: 6px 20px; border-radius: 30px;
+  margin-bottom: 12px; letter-spacing: 0.5px;
+  background: rgba(18, 109, 65, 0.1);
+  color: var(--primary);
+  border: 1px solid rgba(18, 109, 65, 0.2);
+}
+
+.tp-page-title { font-size: 32px; font-weight: 900; color: var(--text-main); margin-bottom: 8px; }
+.tp-page-sub { font-size: 15px; color: var(--text-muted); }
+
+.tp-feed {
+  display: flex; flex-direction: column;
+  align-items: center; padding: 32px 0 60px; gap: 40px;
+}
+
+.tp-post-card {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; padding: 0 24px;
+}
+
+.tp-post-inner {
+  width: 100%; max-width: 420px; min-height: 640px;
+  background: var(--bg-white); border-radius: 26px; overflow: hidden;
+  position: relative; display: flex; flex-direction: column;
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-sm);
+  transition: all .35s;
+}
+
+.tp-post-inner:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.tp-post-illustration {
+  width: 100%; height: 250px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 80px; color: white; position: relative;
+}
+
+.tp-post-illustration::after {
+  content: "";
+  position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 120px;
+  background: linear-gradient(to top, rgba(0,0,0,.25), transparent);
+}
+
+.tp-overlay-actions {
+  position: absolute; left: 18px; bottom: 130px;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 18px; z-index: 10;
+}
+
+.tp-action-btn {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 4px; cursor: pointer; color: white; transition: .2s;
+}
+
+.tp-action-btn span { font-size: 11px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,.5); }
+
+.tp-action-icon {
+  width: 38px; height: 38px; background: var(--bg-white); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25); color: var(--text-main);
+  border: 1px solid var(--border-medium);
+}
+
+.tp-action-icon svg { width: 14px; height: 14px; }
+.tp-action-btn:hover .tp-action-icon { background: var(--primary); color: white; border-color: var(--primary); }
+.tp-action-btn.active .tp-action-icon { background: var(--primary); color: white; border-color: var(--primary); }
+
+.tp-post-content { padding: 22px 24px 26px; background: var(--bg-white); flex: 1; }
+.tp-post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+
+.tp-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 700; color: white; flex-shrink: 0;
+  background: var(--primary);
+}
+
+.tp-author-info { flex: 1; }
+.tp-author-name { font-size: 15px; font-weight: 800; color: var(--text-main); }
+.tp-author-badge { font-size: 12px; margin-top: 2px; color: var(--gold); }
+
+.tp-follow-btn {
+  background: transparent; border: 2px solid var(--primary); color: var(--primary);
+  padding: 6px 15px; border-radius: 20px; font-size: 13px; cursor: pointer;
+  transition: .2s; font-family: 'Tajawal', sans-serif;
+}
+
+.tp-follow-btn:hover, .tp-follow-btn.following {
+  background: var(--primary); color: white;
+}
+
+.tp-post-title { font-size: 20px; font-weight: 900; color: var(--text-main); line-height: 1.5; margin-bottom: 10px; }
+.tp-post-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+
+.tp-post-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.tp-post-tag {
+  background: var(--bg-cream); border: 1px solid var(--border-light);
+  padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+  text-decoration: none; transition: .2s; color: var(--primary);
+}
+
+.tp-post-tag:hover {
+  background: var(--primary); color: white;
+  border-color: var(--primary);
+}
