@@ -56,12 +56,9 @@
 }
 
 .brand-logo-img {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid rgba(56, 189, 248, 0.4);
-  box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
 }
 
 .brand-name {

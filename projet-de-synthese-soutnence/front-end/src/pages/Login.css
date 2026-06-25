@@ -78,12 +78,9 @@
 }
 
 .logo-icon-img {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid rgba(56, 189, 248, 0.4);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
   margin-bottom: 8px;
 }
 
@@ -354,10 +351,10 @@ html.dark .auth-card.glass {
 }
 
 .logo-icon-img-premium {
-  width: 66px;
-  height: 66px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  margin-bottom: 12px;
 }
 
 .logo-name-premium {
