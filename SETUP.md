@@ -2,123 +2,69 @@
 
 ## Arabic / باللغة العربية
 
-هذا الدليل يشرح كيفية إعداد وتشغيل المشروع بالكامل (الواجهة الأمامية والخلفية وسيرفر السوكت) على جهاز جديد.
+هذا الدليل يشرح كيفية إعداد وتشغيل المشروع بالكامل **دون الحاجة لتثبيت XAMPP أو WampServer**، لأن المشروع يستخدم قاعدة بيانات **SQLite** (عبارة عن ملف محلي بسيط يتم إنشاؤه تلقائياً داخل المشروع).
+
+---
 
 ### 1. المتطلبات الأساسية
 تأكد من تثبيت البرامج التالية على جهازك:
 * **Node.js** (لتشغيل الـ Frontend وسيرفر الـ Socket).
-* **PHP** و **Composer** (لتشغيل الـ Backend - Laravel).
-* **XAMPP** أو **WampServer** (لتشغيل سيرفر MySQL وقاعدة البيانات).
+* **PHP** (تأكد من تفعيل إضافة `sqlite3` و `pdo_sqlite` في ملف `php.ini` الخاص بـ PHP).
+* **Composer** (لإدارة حزم الـ PHP والواجهة الخلفية).
 
 ---
 
-### 2. خطوات تثبيت الواجهة الخلفية (Backend)
-افتح واجهة الأوامر (Terminal) في مجلد `projet-de-synthese-soutnence/backend` ونفذ ما يلي:
+### 2. التثبيت التلقائي (بضغطة زر واحدة)
+لقد قمنا بإنشاء ملف تشغيل تلقائي يقوم بتهيئة كل شيء بالنيابة عنك:
 
-1. **تثبيت مكتبات PHP:**
-   ```bash
-   composer install
-   ```
-2. **إنشاء ملف الإعدادات البيئية:**
-   قم بنسخ ملف `.env.example` وتسميته بـ `.env`:
-   ```bash
-   copy .env.example .env
-   ```
-3. **توليد مفتاح أمان التطبيق:**
-   ```bash
-   php artisan key:generate
-   ```
-4. **تهيئة قاعدة البيانات:**
-   - افتح لوحة تحكم XAMPP وشغّل سيرفر Apache و MySQL.
-   - اذهب إلى الرابط `http://localhost/phpmyadmin` وأنشئ قاعدة بيانات جديدة فارغة باسم `projectsoutnenace`.
-   - افتح ملف `.env` وقم بتعديل إعدادات قاعدة البيانات لتتطابق مع جهازك:
-     ```env
-     DB_DATABASE=projectsoutnenace
-     DB_USERNAME=root
-     DB_PASSWORD=
-     ```
-5. **تصدير الجداول وإدخال البيانات الافتراضية:**
-   ```bash
-   php artisan migrate --seed
-   ```
+1. اذهب إلى مجلد المشروع الرئيسي.
+2. اضغط مرتين (Double Click) على الملف: **`setup.bat`**.
+3. سيقوم هذا الملف بـ:
+   - نسخ ملف الإعدادات البيئية `.env`.
+   - تثبيت مكتبات PHP عبر Composer.
+   - إنشاء قاعدة بيانات SQLite وتجهيز الجداول والبيانات الافتراضية.
+   - تثبيت مكتبات JavaScript للواجهة الأمامية.
 
 ---
 
-### 3. خطوات تثبيت الواجهة الأمامية (Frontend)
-افتح واجهة الأوامر (Terminal) في مجلد `projet-de-synthese-soutnence/front-end` ونفذ ما يلي:
-
-1. **تثبيت مكتبات الـ JavaScript:**
-   ```bash
-   npm install
-   ```
-
----
-
-### 4. تشغيل المشروع (بضغطة زر واحدة)
-بعد إكمال التثبيت، اذهب إلى مجلد المشروع الرئيسي واضغط مرتين (Double Click) على ملف:
+### 3. تشغيل المشروع
+بعد انتهاء ملف التثبيت بنجاح، يمكنك تشغيل المشروع في أي وقت بالضغط مرتين على:
 **`start.bat`**
 
-سيقوم هذا الملف ببدء تشغيل السيرفرات الثلاثة تلقائياً وسيعمل الموقع على الرابط: `http://localhost:5173`.
+سيقوم هذا الملف ببدء تشغيل السيرفرات الثلاثة تلقائياً وسيعمل الموقع مباشرة على الرابط: `http://localhost:5173`.
 
 ---
 ---
 
 ## French / En Français
 
-Ce guide explique comment installer et exécuter l'ensemble du projet (Frontend, Backend et Serveur Socket) sur une nouvelle machine.
+Ce guide explique comment installer et exécuter l'ensemble du projet **sans avoir besoin d'installer XAMPP ou WampServer**. Le projet utilise une base de données **SQLite** (un simple fichier local stocké dans le projet).
+
+---
 
 ### 1. Prérequis
 Assurez-vous d'avoir installé les logiciels suivants :
 * **Node.js** (pour le Frontend et le serveur Socket).
-* **PHP** & **Composer** (pour le Backend Laravel).
-* **XAMPP** ou **WampServer** (pour le serveur MySQL).
+* **PHP** (assurez-vous que les extensions `sqlite3` et `pdo_sqlite` sont activées dans votre `php.ini`).
+* **Composer** (pour gérer les dépendances du Backend Laravel).
 
 ---
 
-### 2. Configuration du Backend (Laravel)
-Ouvrez votre terminal dans le dossier `projet-de-synthese-soutnence/backend` et exécutez :
+### 2. Installation Automatique (En un clic)
+Nous avons créé un script d'installation automatique pour configurer le projet facilement :
 
-1. **Installer les dépendances PHP :**
-   ```bash
-   composer install
-   ```
-2. **Créer le fichier de configuration `.env` :**
-   Copiez le fichier `.env.example` et nommez-le `.env` :
-   ```bash
-   copy .env.example .env
-   ```
-3. **Générer la clé de l'application :**
-   ```bash
-   php artisan key:generate
-   ```
-4. **Créer la base de données :**
-   - Lancez Apache et MySQL depuis XAMPP.
-   - Allez sur `http://localhost/phpmyadmin` et créez une base de données vide nommée `projectsoutnenace`.
-   - Configurez vos identifiants de base de données dans le fichier `.env` :
-     ```env
-     DB_DATABASE=projectsoutnenace
-     DB_USERNAME=root
-     DB_PASSWORD=
-     ```
-5. **Exécuter les migrations et insérer les fausses données :**
-   ```bash
-   php artisan migrate --seed
-   ```
+1. Allez dans le dossier racine du projet.
+2. Double-cliquez sur le fichier : **`setup.bat`**.
+3. Ce script va automatiquement :
+   - Créer le fichier de configuration `.env`.
+   - Installer les dépendances PHP via Composer.
+   - Créer la base de données SQLite et insérer les données initiales (seeding).
+   - Installer les dépendances JavaScript du Frontend.
 
 ---
 
-### 3. Configuration du Frontend (React / Vite)
-Ouvrez votre terminal dans le dossier `projet-de-synthese-soutnence/front-end` et exécutez :
-
-1. **Installer les dépendances JS :**
-   ```bash
-   npm install
-   ```
-
----
-
-### 4. Lancement du Projet
-Une fois l'installation terminée, allez dans le dossier racine du projet et double-cliquez sur le fichier :
+### 3. Lancement du Projet
+Une fois l'installation terminée, vous pouvez lancer le projet à tout moment en double-cliquant sur le fichier :
 **`start.bat`**
 
-Cela démarrera automatiquement le serveur Socket, le serveur Laravel et le serveur de développement Vite. L'application sera accessible sur `http://localhost:5173`.
+Cela démarrera automatiquement le serveur de socket, le backend Laravel, et le serveur de développement Vite. L'application sera accessible sur `http://localhost:5173`.
