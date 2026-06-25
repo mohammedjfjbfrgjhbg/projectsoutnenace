@@ -98,7 +98,7 @@ const Login = () => {
                     {/* Header: Logo & Title */}
                     <div className="auth-header">
                         <div className="auth-logo-box">
-                            <img src="/logo.png" className="logo-icon-img-premium" alt="حقي" />
+                            <img src="/logo-transparent.png" className="logo-icon-img-premium" alt="حقي" />
                             <span className="logo-name-premium">GIVENX</span>
                             <div className="logo-tag-premium">
                                 <Sparkles size={11} className="sparkle-icon" />

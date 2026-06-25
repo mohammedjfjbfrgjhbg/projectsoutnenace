@@ -100,7 +100,7 @@ const LawyerSidebar = ({ isOpen, toggleSidebar, isDark, toggleDark }) => {
       <div className={`sidebar ${isOpen ? 'open' : ''}`} dir={dir}>
         <div className="sidebar-top">
           <div className="brand" onClick={() => navigate('/lawyer-dashboard')}>
-             <img src="/logo.png" className="brand-logo-img" alt="حقي" />
+             <img src="/logo-transparent.png" className="brand-logo-img" alt="حقي" />
              <div className="brand-info">
                <h2 className="brand-name">حقي</h2>
                <span className="brand-badge">{t('lawyerRole')}</span>
