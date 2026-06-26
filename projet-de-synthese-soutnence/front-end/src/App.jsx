@@ -38,7 +38,7 @@ import LawyerRegister from "./pages/LawyerRegister";
 import AdminPanel from "./pages/AdminPanel";
 import PendingApproval from "./pages/PendingApproval";
 import { LanguageProvider, useLanguage } from "./context/LanguageContext";
-import { CustomAlertProvider } from "./context/CustomAlertContext";
+import { CustomAlertProvider, useCustomAlert } from "./context/CustomAlertContext";
 
 function AppContent() {
   const location = useLocation();
