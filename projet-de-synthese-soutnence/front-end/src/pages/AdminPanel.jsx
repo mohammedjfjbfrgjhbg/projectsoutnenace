@@ -20,10 +20,12 @@ import {
 import api from '../services/api';
 import './AdminPanel.css';
 import { useLanguage } from '../context/LanguageContext';
+import { useCustomAlert } from '../context/CustomAlertContext';
 
 const AdminPanel = () => {
     const navigate = useNavigate();
     const { language, t } = useLanguage();
+    const { showConfirm } = useCustomAlert();
     const dir = (language === 'en' || language === 'fr') ? 'ltr' : 'rtl';
     const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -153,7 +155,8 @@ const AdminPanel = () => {
     };
 
     const handleApprove = async (id) => {
-        if (!window.confirm(t('confirmApproveAlert'))) return;
+        const isConfirmed = await showConfirm(t('confirmApproveAlert'));
+        if (!isConfirmed) return;
         
         setActionLoading(true);
         try {

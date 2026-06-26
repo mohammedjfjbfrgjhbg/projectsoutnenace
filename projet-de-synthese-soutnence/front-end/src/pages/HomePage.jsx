@@ -26,12 +26,14 @@ import {
 import Footer from "../components/Footer/Footer"
 import "./HomePage.css"
 import { useLanguage } from "../context/LanguageContext"
+import { useCustomAlert } from "../context/CustomAlertContext"
 import api from "../services/api"
 import { BACKEND_URL } from "../config"
 
 function HomePage() {
   const navigate = useNavigate()
   const { language, t } = useLanguage()
+  const { showConfirm } = useCustomAlert()
   const [isLawyer, setIsLawyer] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
 
@@ -121,7 +123,8 @@ function HomePage() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("هل أنت متأكد من حذف هذه القضية نهائياً؟")) {
+    const isConfirmed = await showConfirm(t('confirmDeleteCase') || "هل أنت متأكد من حذف هذه القضية نهائياً؟");
+    if (isConfirmed) {
       try {
         await api.delete(`/lawyer/cases/${id}`);
         setCases(cases.filter(c => c.id !== id));

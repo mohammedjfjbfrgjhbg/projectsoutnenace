@@ -4,10 +4,12 @@ import { Calendar, Clock, CheckCircle, Search, MessageSquare, Eye, CalendarCheck
 import './LawyerAppointments.css';
 import api from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
+import { useCustomAlert } from '../context/CustomAlertContext';
 
 const LawyerAppointments = () => {
   const navigate = useNavigate();
   const { language, t } = useLanguage();
+  const { showConfirm } = useCustomAlert();
   const dir = (language === 'en' || language === 'fr') ? 'ltr' : 'rtl';
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +30,8 @@ const LawyerAppointments = () => {
   };
 
   const handleDeleteAppointment = async (id) => {
-    if (window.confirm(t('confirmDeleteAppointment'))) {
+    const isConfirmed = await showConfirm(t('confirmDeleteAppointment'));
+    if (isConfirmed) {
       try {
         await api.delete(`/appointments/${id}`);
         setAppointments(appointments.filter(app => app.id !== id));

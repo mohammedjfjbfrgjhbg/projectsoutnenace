@@ -34,10 +34,12 @@ import postService from '../services/post.service';
 import { BACKEND_URL } from '../config';
 import './Community.css';
 import { useLanguage } from '../context/LanguageContext';
+import { useCustomAlert } from '../context/CustomAlertContext';
 
 const Community = () => {
   const navigate = useNavigate();
   const { language, t } = useLanguage();
+  const { showConfirm } = useCustomAlert();
   const dir = (language === 'en' || language === 'fr') ? 'ltr' : 'rtl';
   const [posts, setPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
@@ -153,7 +155,8 @@ const Community = () => {
 
   // Delete Post
   const handleDeletePost = async (postId) => {
-    if (!window.confirm(t('confirmDeletePost'))) return;
+    const isConfirmed = await showConfirm(t('confirmDeletePost'));
+    if (!isConfirmed) return;
 
     try {
       await postService.deletePost(postId);
@@ -234,7 +237,8 @@ const Community = () => {
 
   // Delete Comment
   const handleDeleteComment = async (postId, commentId, parentId = null) => {
-    if (!window.confirm(t('confirmDeleteComment'))) return;
+    const isConfirmed = await showConfirm(t('confirmDeleteComment'));
+    if (!isConfirmed) return;
 
     try {
       await postService.deleteComment(commentId);

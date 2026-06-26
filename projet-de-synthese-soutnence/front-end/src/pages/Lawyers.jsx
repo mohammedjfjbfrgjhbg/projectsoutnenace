@@ -7,6 +7,7 @@ import "./Lawyers.css";
 import api from '../services/api';
 import { useLanguage } from "../context/LanguageContext";
 import { useDarkMode } from "../hooks/useDarkMode";
+import { useCustomAlert } from "../context/CustomAlertContext";
 
 const FILTERS = ["الكل", "الأسرة", "الشغل", "الأعمال", "العقار", "الجنائي"];
 
@@ -332,6 +333,7 @@ function ClientRequestCard({ request, onAccept, onDecline }) {
 export default function Lawyers() {
   const navigate = useNavigate();
   const { language, t } = useLanguage();
+  const { showAlert, showConfirm } = useCustomAlert();
   const direction = language === 'en' || language === 'fr' ? 'ltr' : 'rtl';
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("الكل");
@@ -689,18 +691,19 @@ export default function Lawyers() {
       fetchLawyersOrRequests();
     } catch (err) {
       console.error('Error confirming request:', err);
-      alert('حدث خطأ أثناء قبول الطلب.');
+      showAlert('حدث خطأ أثناء قبول الطلب.');
     }
   };
 
   const handleDeclineRequest = async (id) => {
-    if (!window.confirm('هل أنت متأكد من رغبتك في إلغاء هذا الطلب؟')) return;
+    const isConfirmed = await showConfirm('هل أنت متأكد من رغبتك في إلغاء هذا الطلب؟');
+    if (!isConfirmed) return;
     try {
       await api.put(`/appointments/${id}`, { status: 'cancelled' });
       fetchLawyersOrRequests();
     } catch (err) {
       console.error('Error cancelling request:', err);
-      alert('حدث خطأ أثناء إلغاء الطلب.');
+      showAlert('حدث خطأ أثناء إلغاء الطلب.');
     }
   };
 

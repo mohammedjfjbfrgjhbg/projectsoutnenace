@@ -34,11 +34,13 @@ import postService from '../services/post.service';
 import api from '../services/api';
 import './Profile.css';
 import { useLanguage } from '../context/LanguageContext';
+import { useCustomAlert } from '../context/CustomAlertContext';
 import { BACKEND_URL, SOCKET_URL } from '../config';
 
 const Profile = () => {
   const { userId } = useParams();
   const { language, t } = useLanguage();
+  const { showConfirm } = useCustomAlert();
   const dir = (language === 'en' || language === 'fr') ? 'ltr' : 'rtl';
 
   const specialtyKeyMap = {
@@ -321,8 +323,9 @@ const Profile = () => {
     }
   };
 
-  const handleDeleteStory = (storyId) => {
-    if (window.confirm("هل تريد {t('deleteCommentBtn') || 'حذف'} هذه القصة؟")) {
+  const handleDeleteStory = async (storyId) => {
+    const isConfirmed = await showConfirm(t('confirmDeleteStory') || "هل تريد حذف هذه القصة؟");
+    if (isConfirmed) {
       const updatedStories = customStories.filter(s => s.id !== storyId);
       setCustomStories(updatedStories);
       localStorage.setItem(`custom-stories-${profileUser.id}`, JSON.stringify(updatedStories));
@@ -626,7 +629,8 @@ const Profile = () => {
 
   const handleModalDeleteComment = async (commentId, parentId = null) => {
     if (!activePost) return;
-    if (!window.confirm('هل تريد حذف التعليق؟')) return;
+    const isConfirmed = await showConfirm(t('confirmDeleteComment') || 'هل تريد حذف التعليق؟');
+    if (!isConfirmed) return;
 
     try {
       await postService.deleteComment(commentId);

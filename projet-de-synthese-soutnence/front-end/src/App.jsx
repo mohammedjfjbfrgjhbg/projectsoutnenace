@@ -38,10 +38,18 @@ import LawyerRegister from "./pages/LawyerRegister";
 import AdminPanel from "./pages/AdminPanel";
 import PendingApproval from "./pages/PendingApproval";
 import { LanguageProvider, useLanguage } from "./context/LanguageContext";
+import { CustomAlertProvider } from "./context/CustomAlertContext";
 
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { showAlert } = useCustomAlert();
+
+  useEffect(() => {
+    window.alert = (message) => {
+      showAlert(message);
+    };
+  }, [showAlert]);
 
   useEffect(() => {
     const localUser = localStorage.getItem('user');
@@ -151,7 +159,9 @@ function App() {
   return (
     <Router>
       <LanguageProvider>
-        <AppContent />
+        <CustomAlertProvider>
+          <AppContent />
+        </CustomAlertProvider>
       </LanguageProvider>
     </Router>
   );
