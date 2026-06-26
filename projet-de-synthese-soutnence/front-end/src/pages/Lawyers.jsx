@@ -403,7 +403,9 @@ export default function Lawyers() {
         // Fetch lawyer's appointments (requests)
         const response = await api.get('/appointments');
         // Filter pending and confirmed appointments
-        const activeRequests = response.data.filter(app => app.status === 'pending' || app.status === 'confirmed');
+        const activeRequests = Array.isArray(response.data)
+          ? response.data.filter(app => app.status === 'pending' || app.status === 'confirmed')
+          : [];
         
         const processed = activeRequests.map(app => {
           const clientName = app.user?.name || t('memberRole');
@@ -424,7 +426,7 @@ export default function Lawyers() {
             time: app.time,
             status: app.status,
             price: app.price,
-            initial: clientName.charAt(0).toUpperCase()
+            initial: String(clientName).charAt(0).toUpperCase()
           };
         });
         setLawyersList(processed);
@@ -438,10 +440,10 @@ export default function Lawyers() {
         });
         
         // Calculate distances for all lawyers
-        const processed = response.data.map(lawyer => ({
+        const processed = Array.isArray(response.data) ? response.data.map(lawyer => ({
           ...lawyer,
           distance: getDistance(userLat, userLon, lawyer.latitude, lawyer.longitude)
-        }));
+        })) : [];
         
         setLawyersList(processed);
       }
@@ -469,8 +471,14 @@ export default function Lawyers() {
   // Initialize Map
   useEffect(() => {
     if (!mapInstanceRef.current && mapRef.current) {
-      const centerLat = isLawyerUser ? (currentUser?.lawyer?.latitude || 33.5731) : userLat;
-      const centerLon = isLawyerUser ? (currentUser?.lawyer?.longitude || -7.5898) : userLon;
+      let centerLat = isLawyerUser ? (currentUser?.lawyer?.latitude || 33.5731) : userLat;
+      let centerLon = isLawyerUser ? (currentUser?.lawyer?.longitude || -7.5898) : userLon;
+
+      // Parse to float and check for validity
+      centerLat = parseFloat(centerLat);
+      centerLon = parseFloat(centerLon);
+      if (isNaN(centerLat)) centerLat = 33.5731;
+      if (isNaN(centerLon)) centerLon = -7.5898;
 
       const map = L.map(mapRef.current, {
         center: [centerLat, centerLon],
@@ -523,7 +531,14 @@ export default function Lawyers() {
       markersLayerRef.current = L.layerGroup().addTo(map);
       mapInstanceRef.current = map;
     }
-  }, [t, isLawyerUser, userLat, userLon]);
+
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, [t, isLawyerUser, userLat, userLon, lawyersList.length]);
 
   // Update Markers on Map
   useEffect(() => {
@@ -532,7 +547,9 @@ export default function Lawyers() {
       markersMapRef.current = {};
 
       lawyersList.forEach(item => {
-        if (item.latitude && item.longitude) {
+        const lat = parseFloat(item.latitude);
+        const lon = parseFloat(item.longitude);
+        if (!isNaN(lat) && !isNaN(lon)) {
           if (isLawyerUser) {
             // Client Request Markers
             const clientIcon = L.divIcon({
@@ -571,7 +588,7 @@ export default function Lawyers() {
               </div>
             `;
 
-            const marker = L.marker([item.latitude, item.longitude], { icon: clientIcon })
+            const marker = L.marker([lat, lon], { icon: clientIcon })
               .bindPopup(popupHtml);
             
             markersMapRef.current[item.id] = marker;
@@ -609,7 +626,7 @@ export default function Lawyers() {
               </div>
             `;
 
-            const marker = L.marker([item.latitude, item.longitude], { icon: lawyerIcon })
+            const marker = L.marker([lat, lon], { icon: lawyerIcon })
               .bindPopup(popupHtml);
             
             markersMapRef.current[item.id] = marker;
@@ -788,31 +805,69 @@ export default function Lawyers() {
             onClick={handleMapClick}
             style={{ position: 'relative' }}
           >
-              <div id="lawyers-map" ref={mapRef}></div>
-              
-              {/* Map Theme Toggle Button */}
-              <div className="map-theme-toggle-container">
-                  <button 
-                      type="button" 
-                      className={`map-theme-btn ${mapTheme === 'light' ? 'active' : ''}`}
-                      onClick={(e) => {
-                          e.stopPropagation();
-                          setMapTheme('light');
-                      }}
-                  >
-                      ☀️ {language === 'darija' ? 'النهار' : (language === 'fr' ? 'Jour' : 'Light')}
-                  </button>
-                  <button 
-                      type="button" 
-                      className={`map-theme-btn ${mapTheme === 'dark' ? 'active' : ''}`}
-                      onClick={(e) => {
-                          e.stopPropagation();
-                          setMapTheme('dark');
-                      }}
-                  >
-                      🌙 {language === 'darija' ? 'الليل' : (language === 'fr' ? 'Nuit' : 'Night')}
-                  </button>
-              </div>
+              {isLawyerUser && lawyersList.length === 0 ? (
+                <div className="empty-map-video-container animate-fade-in" style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, overflow: 'hidden', background: '#0b0f19' }}>
+                  <video 
+                    src="/maps.mp4" 
+                    autoPlay 
+                    loop 
+                    muted 
+                    playsInline 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <div className="map-video-overlay" style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    background: 'rgba(11, 15, 25, 0.75)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    textAlign: 'center',
+                    padding: '20px',
+                    direction: direction
+                  }}>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '10px' }}>
+                      {language === 'darija' ? 'خريطة الطلبات الواردة' : (language === 'fr' ? 'Carte des demandes' : 'Requests Map')}
+                    </h3>
+                    <p style={{ opacity: 0.9 }}>
+                      {language === 'darija' ? 'لا توجد طلبات جغرافية لعرضها حالياً.' : (language === 'fr' ? 'Aucune demande géographique à afficher pour le moment.' : 'No geographical requests to display right now.')}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div id="lawyers-map" ref={mapRef}></div>
+                  
+                  {/* Map Theme Toggle Button */}
+                  <div className="map-theme-toggle-container">
+                      <button 
+                          type="button" 
+                          className={`map-theme-btn ${mapTheme === 'light' ? 'active' : ''}`}
+                          onClick={(e) => {
+                              e.stopPropagation();
+                              setMapTheme('light');
+                          }}
+                      >
+                          ☀️ {language === 'darija' ? 'النهار' : (language === 'fr' ? 'Jour' : 'Light')}
+                      </button>
+                      <button 
+                          type="button" 
+                          className={`map-theme-btn ${mapTheme === 'dark' ? 'active' : ''}`}
+                          onClick={(e) => {
+                              e.stopPropagation();
+                              setMapTheme('dark');
+                          }}
+                      >
+                          🌙 {language === 'darija' ? 'الليل' : (language === 'fr' ? 'Nuit' : 'Night')}
+                      </button>
+                  </div>
+                </>
+              )}
           </div>
       </div>
 
