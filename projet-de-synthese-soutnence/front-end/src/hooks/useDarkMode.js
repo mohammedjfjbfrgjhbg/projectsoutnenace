@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export function useDarkMode() {
   const [isDark, setIsDark] = useState(() => {
-    const saved = localStorage.getItem("givenx-theme");
+    const saved = localStorage.getItem("themismaroc-theme");
     if (saved) return saved === "dark";
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
@@ -11,10 +11,10 @@ export function useDarkMode() {
     const root = document.documentElement;
     if (isDark) {
       root.classList.add("dark");
-      localStorage.setItem("givenx-theme", "dark");
+      localStorage.setItem("themismaroc-theme", "dark");
     } else {
       root.classList.remove("dark");
-      localStorage.setItem("givenx-theme", "light");
+      localStorage.setItem("themismaroc-theme", "light");
     }
   }, [isDark]);
 

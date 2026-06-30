@@ -144,6 +144,16 @@ class User extends Authenticatable
         return $this->hasMany(Contract::class);
     }
 
+    public function savedPosts(): HasMany
+    {
+        return $this->hasMany(SavedPost::class);
+    }
+
+    public function savedCollections(): HasMany
+    {
+        return $this->hasMany(SavedCollection::class);
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === 'admin';

@@ -116,7 +116,7 @@ const Pricing = () => {
            <BackIcon size={20} /> {t('backToDashboard')}
         </button>
         <h1>{t('pricingTitle') || 'اختر الخطة المناسبة لاحتياجاتك'}</h1>
-        <p>{t('pricingPageSubtitle') || 'استثمر في حمايتك القانونية مع باقات حقي المرنة والقابلة للإلغاء في أي وقت.'}</p>
+        <p>{t('pricingPageSubtitle') || 'استثمر في حمايتك القانونية مع باقات ThemisMaroc المرنة والقابلة للإلغاء في أي وقت.'}</p>
       </div>
 
       {feedback.message && (

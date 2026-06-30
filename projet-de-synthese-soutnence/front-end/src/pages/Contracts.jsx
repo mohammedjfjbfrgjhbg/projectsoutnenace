@@ -921,7 +921,7 @@ const Contracts = () => {
                                             const criticalStr = (analysisResult.critical_issues || []).map((issue, idx) => `${idx + 1}. ${issue}`).join('\n');
                                             const recsStr = (analysisResult.recommendations || []).map((rec, idx) => `${idx + 1}. ${rec}`).join('\n');
                                             const reportText = `
-تقرير فحص وتحليل العقد بالذكاء الاصطناعي - حقي الذكي
+تقرير فحص وتحليل العقد بالذكاء الاصطناعي - ThemisMaroc الذكي
 --------------------------------------------------
 
 1. ملخص عام:

@@ -5,6 +5,7 @@ import {
   MessageCircle, 
   Share2, 
   Bookmark, 
+  BookmarkCheck,
   Trash2, 
   Image as ImageIcon, 
   Send, 
@@ -28,7 +29,9 @@ import {
   Globe,
   CheckCircle2,
   HelpCircle,
-  Award
+  Award,
+  FolderPlus,
+  Check
 } from 'lucide-react';
 import postService from '../services/post.service';
 import { BACKEND_URL } from '../config';
@@ -46,8 +49,16 @@ const Community = () => {
   const [loading, setLoading] = useState(true);
   const [posting, setPosting] = useState(false);
   const [activeTab, setActiveTab] = useState('latest'); // 'latest', 'interactive', 'viewed'
-  const [bookmarkedPosts, setBookmarkedPosts] = useState({}); // { postId: boolean }
+  const [savedPosts, setSavedPosts] = useState({}); // { postId: boolean }
   const [likedHearts, setLikedHearts] = useState({}); // { postId: boolean }
+
+  // Save/Collection Modal States
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [saveModalPostId, setSaveModalPostId] = useState(null);
+  const [collections, setCollections] = useState([]);
+  const [newCollectionName, setNewCollectionName] = useState('');
+  const [creatingCollection, setCreatingCollection] = useState(false);
+  const [savingPost, setSavingPost] = useState(false);
   const [stats, setStats] = useState({ total_users: 0, total_posts: 0, total_lawyers: 0 });
   
   // Post Creation States
@@ -94,10 +105,25 @@ const Community = () => {
       setLoading(true);
       const data = await postService.getPosts();
       setPosts(data);
+      // Build saved state from is_saved flag
+      const savedMap = {};
+      data.forEach(post => {
+        if (post.is_saved) savedMap[post.id] = true;
+      });
+      setSavedPosts(savedMap);
     } catch (err) {
       console.error('Error fetching posts:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchCollections = async () => {
+    try {
+      const data = await postService.getCollections();
+      setCollections(data);
+    } catch (err) {
+      console.error('Error fetching collections:', err);
     }
   };
 
@@ -400,11 +426,55 @@ const Community = () => {
     return postsCopy;
   };
 
-  const toggleBookmark = (postId) => {
-    setBookmarkedPosts(prev => ({
-      ...prev,
-      [postId]: !prev[postId]
-    }));
+  // Save post: if already saved → unsave immediately; if not saved → open modal
+  const handleSaveClick = async (postId) => {
+    if (savedPosts[postId]) {
+      // Unsave immediately
+      try {
+        await postService.toggleSave(postId);
+        setSavedPosts(prev => ({ ...prev, [postId]: false }));
+      } catch (err) {
+        console.error('Error unsaving post:', err);
+      }
+    } else {
+      // Open save modal to choose collection
+      setSaveModalPostId(postId);
+      setShowSaveModal(true);
+      fetchCollections();
+    }
+  };
+
+  // Save post to a specific collection (or no collection)
+  const savePostToCollection = async (collectionId = null) => {
+    if (!saveModalPostId) return;
+    setSavingPost(true);
+    try {
+      await postService.toggleSave(saveModalPostId, collectionId);
+      setSavedPosts(prev => ({ ...prev, [saveModalPostId]: true }));
+      setShowSaveModal(false);
+      setSaveModalPostId(null);
+    } catch (err) {
+      console.error('Error saving post:', err);
+    } finally {
+      setSavingPost(false);
+    }
+  };
+
+  // Create a new collection and save the post to it
+  const handleCreateCollectionAndSave = async () => {
+    if (!newCollectionName.trim()) return;
+    setCreatingCollection(true);
+    try {
+      const data = await postService.createCollection(newCollectionName.trim());
+      setNewCollectionName('');
+      // Save post to the new collection
+      await savePostToCollection(data.collection?.id || data.id);
+      fetchCollections();
+    } catch (err) {
+      console.error('Error creating collection:', err);
+    } finally {
+      setCreatingCollection(false);
+    }
   };
 
   const toggleHeart = (postId) => {
@@ -618,7 +688,7 @@ const Community = () => {
               {sortedPosts.map((post) => {
                 const activeIndex = carouselIndexes[post.id] || 0;
                 const hasImages = post.images && post.images.length > 0;
-                const isBookmarked = bookmarkedPosts[post.id] || false;
+                const isSaved = savedPosts[post.id] || false;
                 const isHearted = likedHearts[post.id] || false;
                 const simulatedHeartCount = (post.likes_count * 2) + 108 + (post.id % 5) * 4 + (isHearted ? 1 : 0);
                 
@@ -739,10 +809,15 @@ const Community = () => {
                         </button>
 
                         <button 
-                          className={`post-action-btn ${isBookmarked ? 'active-bookmark' : ''}`}
-                          onClick={() => toggleBookmark(post.id)}
+                          className={`post-action-btn ${isSaved ? 'active-bookmark saved-check' : ''}`}
+                          onClick={() => handleSaveClick(post.id)}
+                          title={isSaved ? 'إزالة الحفظ' : 'حفظ المنشور'}
                         >
-                          <Bookmark size={18} fill={isBookmarked ? 'currentColor' : 'none'} />
+                          {isSaved ? (
+                            <BookmarkCheck size={18} className="saved-icon-animated" />
+                          ) : (
+                            <Bookmark size={18} />
+                          )}
                         </button>
 
                         <button className="post-action-btn" onClick={() => alert('تم نسخ رابط المنشور')}>
@@ -995,6 +1070,86 @@ const Community = () => {
 
 
       </div>
+
+      {/* ========== SAVE TO COLLECTION MODAL ========== */}
+      {showSaveModal && (
+        <div className="save-modal-overlay" onClick={() => { setShowSaveModal(false); setSaveModalPostId(null); }}>
+          <div className="save-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="save-modal-header">
+              <h3><Bookmark size={20} /> حفظ المنشور</h3>
+              <button className="save-modal-close" onClick={() => { setShowSaveModal(false); setSaveModalPostId(null); }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="save-modal-body">
+              {/* Save without collection */}
+              <button 
+                className="save-collection-item save-no-collection"
+                onClick={() => savePostToCollection(null)}
+                disabled={savingPost}
+              >
+                <div className="collection-item-icon">
+                  <Bookmark size={22} />
+                </div>
+                <div className="collection-item-info">
+                  <span className="collection-item-name">حفظ بدون مجموعة</span>
+                  <span className="collection-item-sub">حفظ سريع</span>
+                </div>
+                <ChevronLeft size={16} className="collection-arrow" />
+              </button>
+
+              {/* Existing collections */}
+              {collections.length > 0 && (
+                <div className="save-collections-list">
+                  <p className="collections-section-title">المجموعات</p>
+                  {collections.map(col => (
+                    <button 
+                      key={col.id}
+                      className="save-collection-item"
+                      onClick={() => savePostToCollection(col.id)}
+                      disabled={savingPost}
+                    >
+                      <div className="collection-item-icon collection-folder">
+                        <FolderPlus size={22} />
+                      </div>
+                      <div className="collection-item-info">
+                        <span className="collection-item-name">{col.name}</span>
+                        <span className="collection-item-sub">{col.saved_posts_count || 0} منشور</span>
+                      </div>
+                      <ChevronLeft size={16} className="collection-arrow" />
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Create new collection */}
+              <div className="save-new-collection-section">
+                <p className="collections-section-title">مجموعة جديدة</p>
+                <div className="new-collection-input-row">
+                  <input 
+                    type="text"
+                    placeholder="اسم المجموعة..."
+                    value={newCollectionName}
+                    onChange={(e) => setNewCollectionName(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleCreateCollectionAndSave()}
+                    className="new-collection-input"
+                    maxLength={100}
+                  />
+                  <button 
+                    className="new-collection-save-btn"
+                    onClick={handleCreateCollectionAndSave}
+                    disabled={!newCollectionName.trim() || creatingCollection}
+                  >
+                    {creatingCollection ? '...' : <><Check size={16} /> حفظ</>}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

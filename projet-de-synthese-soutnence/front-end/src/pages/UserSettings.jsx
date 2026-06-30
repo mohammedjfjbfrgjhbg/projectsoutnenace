@@ -10,11 +10,18 @@ import {
   LogOut,
   MapPin,
   Lock,
-  Globe
+  Globe,
+  Bookmark,
+  Folder,
+  Trash2,
+  Edit,
+  FolderOpen
 } from 'lucide-react';
 import './UserSettings.css';
 import api from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
+import postService from '../services/post.service';
+import { BACKEND_URL } from '../config';
 
 const UserSettings = () => {
   const navigate = useNavigate();
@@ -30,10 +37,19 @@ const UserSettings = () => {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
 
+  // Saved Posts States
+  const [collections, setCollections] = useState([]);
+  const [selectedCollectionId, setSelectedCollectionId] = useState('all'); // 'all', 'none', or id
+  const [savedPosts, setSavedPosts] = useState([]);
+  const [loadingSaved, setLoadingSaved] = useState(false);
+  const [editingCollectionId, setEditingCollectionId] = useState(null);
+  const [editingCollectionName, setEditingCollectionName] = useState('');
+
   const tabs = [
     { id: 'profile', label: t('profileTab'), icon: <UserIcon size={20} /> },
     { id: 'security', label: t('securityTab'), icon: <Shield size={20} /> },
     { id: 'billing', label: t('billingTab'), icon: <CreditCard size={20} /> },
+    { id: 'saved', label: t('savedTab') || 'المحفوظات', icon: <Bookmark size={20} /> },
   ];
 
   useEffect(() => {
@@ -52,6 +68,78 @@ const UserSettings = () => {
     };
     loadProfile();
   }, []);
+
+  useEffect(() => {
+    if (activeTab === 'saved') {
+      loadCollections();
+      loadSavedPosts(selectedCollectionId);
+    }
+  }, [activeTab, selectedCollectionId]);
+
+  const loadCollections = async () => {
+    try {
+      const data = await postService.getCollections();
+      setCollections(data);
+    } catch (err) {
+      console.error('Error loading collections:', err);
+    }
+  };
+
+  const loadSavedPosts = async (colId) => {
+    setLoadingSaved(true);
+    try {
+      const filterId = (colId === 'all' || colId === 'none') ? null : colId;
+      const data = await postService.getSavedPosts(filterId);
+      
+      // If we filtered locally for uncategorized ('none')
+      if (colId === 'none') {
+        setSavedPosts(data.filter(sp => !sp.collection_id));
+      } else {
+        setSavedPosts(data);
+      }
+    } catch (err) {
+      console.error('Error loading saved posts:', err);
+    } finally {
+      setLoadingSaved(false);
+    }
+  };
+
+  const handleDeleteCollection = async (id, e) => {
+    e.stopPropagation();
+    if (!window.confirm('هل أنت متأكد من حذف هذه المجموعة؟ لن يتم حذف المنشورات نفسها.')) return;
+    try {
+      await postService.deleteCollection(id);
+      if (selectedCollectionId === id) {
+        setSelectedCollectionId('all');
+      }
+      loadCollections();
+    } catch (err) {
+      console.error('Error deleting collection:', err);
+    }
+  };
+
+  const handleRenameCollection = async (id, name) => {
+    if (!name.trim()) return;
+    try {
+      await postService.updateCollection(id, name.trim());
+      setEditingCollectionId(null);
+      loadCollections();
+    } catch (err) {
+      console.error('Error renaming collection:', err);
+    }
+  };
+
+  const handleUnsavePost = async (savedPostId, e) => {
+    e.stopPropagation();
+    if (!window.confirm('هل تريد إزالة هذا المنشور من المحفوظات؟')) return;
+    try {
+      await postService.removeSavedPost(savedPostId);
+      setSavedPosts(prev => prev.filter(sp => sp.id !== savedPostId));
+      loadCollections();
+    } catch (err) {
+      console.error('Error unsaving post:', err);
+    }
+  };
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -232,6 +320,145 @@ const UserSettings = () => {
               </div>
               <div className="billing-actions">
                 <button className="btn-secondary" onClick={() => navigate('/pricing')}>{t('viewPlans')}</button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'saved' && (
+            <div className="settings-saved-container">
+              {/* Sidebar with Collections */}
+              <div className="saved-collections-sidebar">
+                <div className="sidebar-header">
+                  <h4>مجموعات الحفظ</h4>
+                </div>
+                <div className="collections-menu-list">
+                  <button 
+                    className={`collection-menu-btn ${selectedCollectionId === 'all' ? 'active' : ''}`}
+                    onClick={() => setSelectedCollectionId('all')}
+                  >
+                    <Bookmark size={18} />
+                    <span>الكل</span>
+                  </button>
+                  <button 
+                    className={`collection-menu-btn ${selectedCollectionId === 'none' ? 'active' : ''}`}
+                    onClick={() => setSelectedCollectionId('none')}
+                  >
+                    <Bookmark size={18} style={{ opacity: 0.5 }} />
+                    <span>غير مصنفة</span>
+                  </button>
+
+                  <div className="collections-divider">المجموعات الخاصة</div>
+
+                  {collections.map(col => (
+                    <div 
+                      key={col.id}
+                      className={`collection-menu-btn-wrapper ${selectedCollectionId === col.id ? 'active' : ''}`}
+                      onClick={() => setSelectedCollectionId(col.id)}
+                    >
+                      {editingCollectionId === col.id ? (
+                        <div className="inline-rename-row" onClick={e => e.stopPropagation()}>
+                          <input 
+                            type="text" 
+                            value={editingCollectionName}
+                            onChange={e => setEditingCollectionName(e.target.value)}
+                            onKeyDown={e => e.key === 'Enter' && handleRenameCollection(col.id, editingCollectionName)}
+                            className="inline-rename-input"
+                            autoFocus
+                          />
+                          <button 
+                            className="inline-rename-save"
+                            onClick={() => handleRenameCollection(col.id, editingCollectionName)}
+                          >
+                            حفظ
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <button className="collection-select-btn">
+                            <Folder size={18} />
+                            <span className="col-name-label">{col.name}</span>
+                            <span className="col-count-badge">{col.saved_posts_count || 0}</span>
+                          </button>
+                          <div className="collection-actions-btns">
+                            <button 
+                              className="col-action-btn edit" 
+                              title="تعديل الاسم"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEditingCollectionId(col.id);
+                                setEditingCollectionName(col.name);
+                              }}
+                            >
+                              <Edit size={14} />
+                            </button>
+                            <button 
+                              className="col-action-btn delete" 
+                              title="حذف المجموعة"
+                              onClick={(e) => handleDeleteCollection(col.id, e)}
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Saved Posts Grid / Content */}
+              <div className="saved-posts-content-area">
+                <div className="content-area-header">
+                  <h3>
+                    {selectedCollectionId === 'all' && 'كل المنشورات المحفوظة'}
+                    {selectedCollectionId === 'none' && 'منشورات غير مصنفة'}
+                    {typeof selectedCollectionId === 'number' && (collections.find(c => c.id === selectedCollectionId)?.name || 'المجموعة')}
+                  </h3>
+                </div>
+
+                {loadingSaved ? (
+                  <div className="saved-loading-spinner">جاري تحميل المنشورات...</div>
+                ) : savedPosts.length > 0 ? (
+                  <div className="saved-posts-grid">
+                    {savedPosts.map(sp => {
+                      const post = sp.post;
+                      if (!post) return null;
+                      const hasImages = post.images && post.images.length > 0;
+                      return (
+                        <div key={sp.id} className="saved-post-card" onClick={() => navigate('/community')}>
+                          {hasImages && (
+                            <div className="saved-post-thumbnail">
+                              <img src={`${BACKEND_URL}${post.images[0]}`} alt="Post Thumbnail" />
+                            </div>
+                          )}
+                          <div className="saved-post-info-block">
+                            <div className="saved-post-author-row">
+                              <span className="author-name">{post.user?.name || 'مستخدم'}</span>
+                              <span className="saved-date">{new Date(sp.created_at).toLocaleDateString('ar-MA', { month: 'short', day: 'numeric' })}</span>
+                            </div>
+                            <p className="saved-post-preview-text">
+                              {post.content ? (post.content.length > 80 ? post.content.substring(0, 80) + '...' : post.content) : 'منشور يحتوي على وسائط'}
+                            </p>
+                            <div className="saved-post-card-footer">
+                              <button 
+                                className="unsave-card-btn" 
+                                onClick={(e) => handleUnsavePost(sp.id, e)}
+                                title="إلغاء الحفظ"
+                              >
+                                <Trash2 size={14} /> إلغاء الحفظ
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="saved-empty-state">
+                    <FolderOpen size={48} className="empty-folder-icon" />
+                    <p>لا توجد منشورات محفوظة في هذه المجموعة.</p>
+                  </div>
+                )}
               </div>
             </div>
           )}

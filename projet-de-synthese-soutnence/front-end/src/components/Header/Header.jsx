@@ -287,8 +287,8 @@ function Header({ isDark, toggleDark, isLawyer, toggleSidebar }) {
           <Menu size={24} />
         </button>
         <div className="topbar-logo" onClick={() => navigate(homePath)}>
-          <img src="/logo-transparent.png" className="logo-img" alt="حقي" />
-          <span className="logo-text-brand">حقي</span>
+          <img src="/logo-transparent.png" className="logo-img" alt="ThemisMaroc" />
+          <span className="logo-text-brand">ThemisMaroc</span>
         </div>
       </div>
     </header>

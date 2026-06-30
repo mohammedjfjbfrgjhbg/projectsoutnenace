@@ -112,8 +112,8 @@ const Register = () => {
                     {/* Header */}
                     <div className="auth-header">
                         <div className="auth-logo-box">
-                            <img src="/logo-transparent.png" className="logo-icon-img" alt="حقي" />
-                            <span className="logo-name">GIVENX</span>
+                            <img src="/logo-transparent.png" className="logo-icon-img" alt="ThemisMaroc" />
+                            <span className="logo-name">ThemisMaroc</span>
                             <span className="logo-tag">{t('brandBadge')}</span>
                         </div>
                         <h1 className="auth-title">{t('register')}</h1>

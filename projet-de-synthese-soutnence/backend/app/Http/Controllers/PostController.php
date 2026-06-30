@@ -62,6 +62,7 @@ class PostController extends Controller
                 'likes_count' => $post->likes_count,
                 'comments_count' => $post->comments_count,
                 'is_liked' => $isLiked,
+                'is_saved' => \App\Models\SavedPost::where('user_id', $userId)->where('post_id', $post->id)->exists(),
                 'comments' => $formattedComments,
             ];
         });
@@ -120,6 +121,7 @@ class PostController extends Controller
                 'likes_count' => 0,
                 'comments_count' => 0,
                 'is_liked' => false,
+                'is_saved' => false,
                 'comments' => [],
             ]
         ], 201);

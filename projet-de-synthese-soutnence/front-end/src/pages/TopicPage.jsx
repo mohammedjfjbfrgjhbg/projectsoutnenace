@@ -41,7 +41,7 @@ const defaultTopic = (name) => ({
   posts: [
     {
       id: 1, initials: "ق", avatarColor: "linear-gradient(135deg,#14532d,#166534)",
-      name: "فريق حقّي", badge: "✓ قانون عام", emoji: "📚",
+      name: "فريق ThemisMaroc", badge: "✓ قانون عام", emoji: "📚",
       illustrationBg: "linear-gradient(135deg,#052e16,#14532d)",
       title: `كل منشورات موضوع #${name}`,
       desc: "محتوى قانوني موثوق من محامين معتمدين. تابع المحامي لتصلك تحديثاته مباشرة.",

@@ -12,6 +12,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\LawyerRegistrationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LawyerCaseController;
+use App\Http\Controllers\SavedPostController;
 use Illuminate\Support\Facades\Route;
 
 // 1. Public Authentication Routes
@@ -85,6 +86,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/posts/{id}/comments', [PostController::class, 'addComment']);
         Route::delete('/comments/{id}', [PostController::class, 'deleteComment']);
         Route::post('/comments/{id}/like', [PostController::class, 'toggleCommentLike']);
+
+        // Saved Posts & Collections
+        Route::post('/posts/{id}/save', [SavedPostController::class, 'toggleSave']);
+        Route::get('/saved-posts', [SavedPostController::class, 'getSavedPosts']);
+        Route::get('/saved-collections', [SavedPostController::class, 'getCollections']);
+        Route::post('/saved-collections', [SavedPostController::class, 'createCollection']);
+        Route::put('/saved-collections/{id}', [SavedPostController::class, 'updateCollection']);
+        Route::delete('/saved-collections/{id}', [SavedPostController::class, 'deleteCollection']);
+        Route::delete('/saved-posts/{id}', [SavedPostController::class, 'removeSavedPost']);
+        Route::put('/saved-posts/{id}/move', [SavedPostController::class, 'moveToCollection']);
 
         // User Profiles & Follows
         Route::get('/users/{id}/profile', [ProfileController::class, 'show']);

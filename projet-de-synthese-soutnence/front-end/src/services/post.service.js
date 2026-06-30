@@ -57,6 +57,61 @@ const postService = {
     });
     return response.data;
   },
+
+  // ============ SAVED POSTS & COLLECTIONS ============
+
+  // 8. Toggle save/unsave a post (optionally to a collection)
+  toggleSave: async (postId, collectionId = null) => {
+    const response = await api.post(`/posts/${postId}/save`, {
+      collection_id: collectionId,
+    });
+    return response.data;
+  },
+
+  // 9. Get all saved posts (optionally filter by collection)
+  getSavedPosts: async (collectionId = null) => {
+    const params = collectionId ? { collection_id: collectionId } : {};
+    const response = await api.get('/saved-posts', { params });
+    return response.data;
+  },
+
+  // 10. Get all collections for current user
+  getCollections: async () => {
+    const response = await api.get('/saved-collections');
+    return response.data;
+  },
+
+  // 11. Create a new collection
+  createCollection: async (name) => {
+    const response = await api.post('/saved-collections', { name });
+    return response.data;
+  },
+
+  // 12. Rename a collection
+  updateCollection: async (id, name) => {
+    const response = await api.put(`/saved-collections/${id}`, { name });
+    return response.data;
+  },
+
+  // 13. Delete a collection
+  deleteCollection: async (id) => {
+    const response = await api.delete(`/saved-collections/${id}`);
+    return response.data;
+  },
+
+  // 14. Remove a specific saved post
+  removeSavedPost: async (id) => {
+    const response = await api.delete(`/saved-posts/${id}`);
+    return response.data;
+  },
+
+  // 15. Move a saved post to a different collection
+  moveSavedPost: async (id, collectionId) => {
+    const response = await api.put(`/saved-posts/${id}/move`, {
+      collection_id: collectionId,
+    });
+    return response.data;
+  },
 };
 
 export default postService;
